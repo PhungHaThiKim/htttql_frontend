@@ -122,7 +122,7 @@ const ManagePartner = () => {
 
     async function editPartnerApi () {
         var data = {
-            "partner_id": partnerSelected.partner_id,
+            "id": partnerSelected.partner_id,
             "partnername": partnername,
             "taxid": taxid,
             "address": address,
@@ -325,7 +325,7 @@ return (
                         <CButton color="primary" onClick={() => setAddPartner(!add_Partner)}>Thêm đối tác</CButton>
                     </CCardHeader>
                     <CCardBody>
-                            <table class="table table-striped">
+                            <table class="table table-striped text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col"> Mã </th>

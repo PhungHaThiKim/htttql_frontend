@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './scss/style.scss';
+import useAccount from './useAccount';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -17,6 +18,14 @@ const Register = React.lazy(() => import('./views/pages/register/Register'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
+const removeAccount = () => {
+  const account = localStorage.getItem("account")
+  if (account && account != "") {
+    localStorage.removeItem("account")
+  }
+  return null
+}
+
 class App extends Component {
 
   render() {
@@ -24,6 +33,7 @@ class App extends Component {
       <HashRouter>
           <React.Suspense fallback={loading}>
             <Switch>
+              <Route exact path="/logout" name="Lgout" render={props => removeAccount() ? (<Redirect to={{ pathname: "/login" }} />) : (<Redirect to={{ pathname: "/login" }} />)} />
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />

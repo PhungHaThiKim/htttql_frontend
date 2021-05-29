@@ -3,9 +3,12 @@ import React from 'react';
 const EditProfile = React.lazy(() => import('./views/mis/editprofile/EditProfile'));
 const ManageAccount = React.lazy(() => import('./views/mis/manageaccount/ManageAccount'));
 const ManageBranch = React.lazy(() => import('./views/mis/managebranch/ManageBranch'));
-const ManagePartner = React.lazy(() => import('./views/mis/managepartner/ManagePartner'));
-const ManageDepartment = React.lazy(() => import('./views/mis/managecategory/ManageDepartment'));
-
+const ManagePartner = React.lazy(() => import('./views/mis/managecategory/managepartner/ManagePartner'));
+const ManageDepartment = React.lazy(() => import('./views/mis/managecategory/managedepartment/ManageDepartment'));
+const ManageProduct = React.lazy(() => import('./views/mis/managecategory/manageproduct/ManageProduct'));
+const ManageTax = React.lazy(() => import('./views/mis/managecategory/managetax/ManageTax'));
+const ManageEmployee = React.lazy(() => import('./views/mis/managecategory/manageemployee/ManageEmployee'));
+const ManageBuyBill = React.lazy(() => import('./views/mis/managebuybill/ManageBuyBill'));
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -51,8 +54,12 @@ const routes = [
   { path: '/manageaccount', name: 'Quản lý tài khoản', component: ManageAccount },
   { path: '/managebranch/', name: 'Quản lý chi nhánh', component: ManageBranch },
   { path: '/managepartner/', name: 'Quản lý thông tin đối tác', component: ManagePartner },
-  { path: '/managecategory/', name: 'Quản lý phòng ban', component: ManageDepartment },
+  { path: '/managedepartment/', name: 'Quản lý phòng ban', component: ManageDepartment },
+  { path: '/manageproduct/', name: 'Quản lý sản phẩm', component: ManageProduct},
+  { path: '/managetax/', name: 'Quản lý thuế', component: ManageTax},
 
+  { path: '/manageemployee/', name: 'Quản lý nhân viên', component: ManageEmployee},
+  { path: '/managebuybill/', name: 'Quản lý hóa đơn mua', component: ManageBuyBill},
 
   { path: '/', exact: true, name: 'Trang chủ' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },

@@ -218,7 +218,7 @@ const ManageBranch = () => {
                             <CButton color="primary" onClick={() => setAddBranch(!add_branch)}>Thêm chi nhánh</CButton>
                         </CCardHeader>
                         <CCardBody>
-                            <table class="table table-striped">
+                            <table class="table table-striped text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col"> Mã chi nhánh </th>

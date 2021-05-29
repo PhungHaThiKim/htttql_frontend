@@ -27,10 +27,35 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Quản lý phong ban',
-    to: '/managecategory',
+    name: 'Quản lý phòng ban',
+    to: '/managedepartment',
     icon: 'cil-drop',
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý sản phẩm',
+    to: '/manageproduct',
+    icon: 'cil-drop',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý thuế',
+    to: '/managetax',
+    icon: 'cil-drop',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý nhân viên',
+    to: '/manageemployee',
+    icon: 'cil-drop',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý hóa đơn mua',
+    to: '/managebuybill',
+    icon: 'cil-drop',
+  },
+
 
   {
     _tag: 'CSidebarNavItem',

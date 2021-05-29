@@ -21,9 +21,12 @@ import {
 import CIcon from '@coreui/icons-react'
 
 import axios from 'axios'
+import useAccount from 'src/useAccount'
 
 
 const ManageDepartment = () => {
+
+    const {account, saveAccount} = useAccount()   // lay thong tin ACCC - phan quyen
 
     const [f5, setF5] = useState(false)
     const [warning, setWarning] = useState(false)
@@ -32,21 +35,11 @@ const ManageDepartment = () => {
     const [edit_depart, setEditDepart] = useState(false)
 
     const [depart_name, setDepartName] = useState("")
+    const [branch_id, setBranchId] = useState(account.branchid)
     
 
     const [departs, setDepartments] = useState(
-       [ {
-            department_id: "10000000",
-            branch_id: "10000000",
-            department_name: "Spider man",
-            department_numofemployees: 0
-        }, 
-        {
-            department_id: "10000000",
-            branch_id: "10000000",
-            department_name: "Spider man",
-            department_numofemployees: 10
-        } ]
+       [  ]
     )
 
     useEffect (() =>
@@ -71,26 +64,30 @@ const ManageDepartment = () => {
             "department_id" : department_id
         }
         var rs = await axios.post("/api/delete_department", data)
-        setF5(true)
+        setF5(!f5)
     }
 
     async function addDepartment () {
         var data = {
             "department_name": depart_name,
-            
+            "branch_id": branch_id
 
             
         }
+        console.log(data)
         var rs = await axios.post("/api/add_department", data)
         setDepartName("")
-       
+        setBranchId(branch_id)
 
         setF5(!f5)
     }
 
     async function editDepart (item) {
         setDepartSelected(item);
+        
         setDepartName(item.department_name)
+        
+        
         
     }
 
@@ -98,6 +95,7 @@ const ManageDepartment = () => {
         var data = {
             "department_id": departselected.department_id,
             "department_name": depart_name,
+            "branch_id": departselected.branch_id
             
             
         }
@@ -147,6 +145,16 @@ const ManageDepartment = () => {
                             
                         </CCol>
                     </CFormGroup>
+
+                    <CFormGroup  row>
+                        <CCol xs="2">
+                            <CLabel> Mã chi nhánh</CLabel>
+                        </CCol>
+                        <CCol >
+                            <CInput id="text-input" name="text-input" value={branch_id} readOnly/>
+                            
+                        </CCol>
+                    </CFormGroup>
                    
                 </CForm>
               </CModalBody>
@@ -163,7 +171,7 @@ const ManageDepartment = () => {
         {/* Edit Department */}
         <CModal 
               show={edit_depart} 
-              onClose={() => setAddDepart(!edit_depart)}
+              onClose={() => setEditDepart(!edit_depart)}
               color="primary"
               size="lg"
               centered
@@ -182,12 +190,21 @@ const ManageDepartment = () => {
                             
                         </CCol>
                     </CFormGroup>
+                    <CFormGroup  row>
+                        <CCol xs="2">
+                            <CLabel> Mã chi nhánh</CLabel>
+                        </CCol>
+                        <CCol >
+                            <CInput id="text-input" name="text-input" value={branch_id} readOnly/>
+                            
+                        </CCol>
+                    </CFormGroup>
                     
                 </CForm>
               </CModalBody>
               <CModalFooter className="justify-content-center">
                 <CButton color="primary" onClick={() => editDepartApi()}>
-                  Thêm
+                  Sửa
                 </CButton>{' '}
                 <CButton color="secondary" onClick={() => setEditDepart(!edit_depart)}>
                   Hủy
@@ -203,7 +220,7 @@ const ManageDepartment = () => {
                             <CButton color="primary" onClick = {() => setAddDepart(!add_depart)} >Thêm phòng ban</CButton>
                         </CCardHeader>
                         <CCardBody>
-                            <table className="table table-striped">
+                            <table className="table table-striped text-center">
                                 <thead>
                                     <th scope="col">  Mã phòng ban </th>
                                     <th scope="col">  Tên phòng ban </th>
@@ -214,13 +231,15 @@ const ManageDepartment = () => {
                                     {
                                         departs.map((item) => 
                                         <>
-                                            <td scope="row">{item.department_id}</td>
-                                            <td>{item.department_name}</td>
-                                            <td>{item.department_numofemployees}</td>
-                                            <td>
-                                                <CButton color="info" onClick={ () => {editDepart(item); setEditDepart(!edit_depart) }}>Sửa</CButton>
-                                                <CButton color="danger" onClick={ ()=> {setDepartSelected(item); setWarning(!warning)}}>Xóa</CButton>
-                                            </td>
+                                            <tr>
+                                                <td scope="row">{item.department_id}</td>
+                                                <td>{item.department_name}</td>
+                                                <td>{item.department_numofemployees}</td>
+                                                <td>
+                                                    <CButton color="info" onClick={ () => {editDepart(item); setEditDepart(!edit_depart) }}>Sửa</CButton>
+                                                    <CButton color="danger" onClick={ ()=> {setDepartSelected(item); setWarning(!warning)}}>Xóa</CButton>
+                                                </td>
+                                            </tr>
                                         </>
 
                                         )

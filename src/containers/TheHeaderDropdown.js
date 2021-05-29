@@ -80,9 +80,9 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem to="/logout">
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+          Dang xuat
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
