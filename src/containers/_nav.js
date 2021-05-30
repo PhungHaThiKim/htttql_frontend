@@ -55,6 +55,13 @@ const _nav =  [
     to: '/managebuybill',
     icon: 'cil-drop',
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý hóa đơn bán',
+    to: '/managesellbill',
+    icon: 'cil-drop',
+  },
+
 
 
   {

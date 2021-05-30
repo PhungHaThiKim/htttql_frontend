@@ -26,7 +26,7 @@ import useAccount from 'src/useAccount'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
-const ManageBuyBill = () => {
+const ManageSellBill = () => {
 
     const {account, saveAccount} = useAccount() 
 
@@ -473,4 +473,4 @@ const ManageBuyBill = () => {
     )
 }
 
-export default ManageBuyBill
+export default ManageSellBill

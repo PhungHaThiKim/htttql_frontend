@@ -9,6 +9,7 @@ const ManageProduct = React.lazy(() => import('./views/mis/managecategory/manage
 const ManageTax = React.lazy(() => import('./views/mis/managecategory/managetax/ManageTax'));
 const ManageEmployee = React.lazy(() => import('./views/mis/managecategory/manageemployee/ManageEmployee'));
 const ManageBuyBill = React.lazy(() => import('./views/mis/managebuybill/ManageBuyBill'));
+const ManageSellBill = React.lazy(() => import('./views/mis/managesellbill/ManageSellBill'));
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -60,6 +61,7 @@ const routes = [
 
   { path: '/manageemployee/', name: 'Quản lý nhân viên', component: ManageEmployee},
   { path: '/managebuybill/', name: 'Quản lý hóa đơn mua', component: ManageBuyBill},
+  { path: '/managesellbill/', name: 'Quản lý hóa đơn bán', component: ManageSellBill},
 
   { path: '/', exact: true, name: 'Trang chủ' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
