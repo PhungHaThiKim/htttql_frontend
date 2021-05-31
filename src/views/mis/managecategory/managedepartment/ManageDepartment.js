@@ -16,7 +16,8 @@ import {
    CLabel,
    CInput,
    CFormText,
-   CTextarea
+   CTextarea,
+   CSelect
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -35,8 +36,8 @@ const ManageDepartment = () => {
     const [edit_depart, setEditDepart] = useState(false)
 
     const [depart_name, setDepartName] = useState("")
-    const [branch_id, setBranchId] = useState(account.branchid)
-    
+    const [branch_id, setBranchId] = useState(account.branch ? account.branch.branch_id : "")
+    const [branchs, setBranchs] = useState([])
 
     const [departs, setDepartments] = useState(
        [  ]
@@ -44,9 +45,18 @@ const ManageDepartment = () => {
 
     useEffect (() =>
     {
+        getBranchs()
         getDepartment()
     } , [f5]
     )
+
+    async function getBranchs() {
+        var rs = await axios.post("/api/get_branch")
+        var rs = rs.data
+        var data = rs.data
+        console.log(data)
+        setBranchs(data)
+    }
 
     async function getDepartment ()
     {
@@ -148,14 +158,25 @@ const ManageDepartment = () => {
 
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel> Mã chi nhánh</CLabel>
+                            <CLabel> Chi nhánh</CLabel>
                         </CCol>
                         <CCol >
-                            <CInput id="text-input" name="text-input" value={branch_id} readOnly/>
-                            
+                            {
+                                account.type == "Chiefmanager" ? <>
+                                    <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
+                                        <option value="" >Chon chi nhanh</option>
+                                        {
+                                            branchs.map((item) => 
+                                                <option value={item.branch_id}>{item.branch_location}</option>
+                                            )
+                                        }
+                                    </CSelect>
+                                </> : <>
+                                    <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
+                                </>
+                            }
                         </CCol>
                     </CFormGroup>
-                   
                 </CForm>
               </CModalBody>
               <CModalFooter className="justify-content-center">
@@ -192,11 +213,23 @@ const ManageDepartment = () => {
                     </CFormGroup>
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel> Mã chi nhánh</CLabel>
+                            <CLabel> Chi nhánh</CLabel>
                         </CCol>
                         <CCol >
-                            <CInput id="text-input" name="text-input" value={branch_id} readOnly/>
-                            
+                            {
+                                account.type == "Chiefmanager" ? <>
+                                    <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
+                                        <option value="" >Chon chi nhanh</option>
+                                        {
+                                            branchs.map((item) => 
+                                                <option value={item.branch_id}>{item.branch_location}</option>
+                                            )
+                                        }
+                                    </CSelect>
+                                </> : <>
+                                    <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
+                                </>
+                            }
                         </CCol>
                     </CFormGroup>
                     

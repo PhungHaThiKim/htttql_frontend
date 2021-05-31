@@ -35,18 +35,7 @@ const ManageBranch = () => {
     const [branch_location, setBranchLocation] = useState("")
 
     const [branchs, setBranchs] = useState(
-        [
-            {
-                branch_id: "97634829",
-                branch_phone: "Bmart",
-                branch_location: "VietNam"
-            },
-            {
-                branch_id: "97634829",
-                branch_phone: "Bmart",
-                branch_location: "VietNam"
-            },
-        ]
+        []
     )
 
     useEffect(() => {

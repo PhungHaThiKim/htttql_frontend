@@ -35,7 +35,7 @@ const ManageProduct = () => {
     const [add_product, setAddProduct] = useState(false)
     const [edit_product, setEditProduct] = useState(false)
  
-    const [branch_id, setBranchId] = useState(account.branch.branch_id)
+    const [branch_id, setBranchId] = useState(account.branch ? account.branch.branch_id : "")
     const [partner_id, setPartnerId] = useState("")
     const [product_name, setProductName] = useState("")
     const [ctrprice, setCtrPricePro] = useState(0)
@@ -47,13 +47,23 @@ const ManageProduct = () => {
     const [products, setProducts] = useState(
         [ ]
     )
+    const [branchs, setBranchs] = useState([])
 
     useEffect (() =>
     {
+        getBranchs()
         getPartners()
         getProduct()
        
     } , [f5])
+
+    async function getBranchs() {
+        var rs = await axios.post("/api/get_branch")
+        var rs = rs.data
+        var data = rs.data
+        console.log(data)
+        setBranchs(data)
+    }
 
 
     async function getPartners() {
@@ -177,7 +187,20 @@ const ManageProduct = () => {
                                 <CLabel> Chi nhánh</CLabel>
                             </CCol>
                             <CCol >
-                                <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
+                            {
+                                account.type == "Chiefmanager" ? <>
+                                    <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
+                                        <option value="" >Chon chi nhanh</option>
+                                        {
+                                            branchs.map((item) => 
+                                                <option value={item.branch_id}>{item.branch_location}</option>
+                                            )
+                                        }
+                                    </CSelect>
+                                </> : <>
+                                    <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
+                                </>
+                            }
                                 
                             </CCol>
                         </CFormGroup>
@@ -249,8 +272,20 @@ const ManageProduct = () => {
                                 <CLabel> Chi nhánh</CLabel>
                             </CCol>
                             <CCol >
-                                <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
-                                
+                                {
+                                    account.type == "Chiefmanager" ? <>
+                                        <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
+                                            <option value="" >Chon chi nhanh</option>
+                                            {
+                                                branchs.map((item) => 
+                                                    <option value={item.branch_id}>{item.branch_location}</option>
+                                                )
+                                            }
+                                        </CSelect>
+                                    </> : <>
+                                        <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
+                                    </>
+                                }
                             </CCol>
                         </CFormGroup>
 
