@@ -114,9 +114,22 @@ const _nav =  [
     icon: 'cil-drop',
      // roles: ["Manager", "Chiefmanager"]
   },
-
-
-
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Tổng hợp tài chính chi nhánh']
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Thống kê tài chính',
+    to: '/statisticbranch',
+    icon: 'cil-drop',
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Báo cáo tài chính',
+    to: '/reportbranch',
+    icon: 'cil-drop',
+  },
 
   
   {

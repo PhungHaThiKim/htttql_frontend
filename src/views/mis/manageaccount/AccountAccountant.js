@@ -126,7 +126,7 @@ const AccountAccountant = () => {
             sex: sex,
             phone: ""
         }
-        var rs = await axios.post("/api/edit", data)
+        var rs = await axios.post("/api/edit_info", data)
         setF5(!f5)
     }
 

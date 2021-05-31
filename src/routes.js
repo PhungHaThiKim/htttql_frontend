@@ -1,5 +1,7 @@
 import React from 'react';
 
+const StatisticBranch = React.lazy(() => import('./views/mis/statistic/statisticbranch/StatisticBranch'));
+const ReportBranch = React.lazy(() => import('./views/mis/statistic/statisticbranch/ReportBranch'));
 const AccountManager = React.lazy(() => import('./views/mis/manageaccount/AccountManager'));
 const AccountAccountant = React.lazy(() => import('./views/mis/manageaccount/AccountAccountant'));
 const AccountChiefmanager = React.lazy(() => import('./views/mis/manageaccount/AccountChiefmanager'));
@@ -55,6 +57,8 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
 const routes = [
+  { path: '/statisticbranch', name: 'Thống kê tài chính chi nhánh', component: StatisticBranch, },
+  { path: '/reportbranch', name: 'Báo cáo tài chính chi nhánh', component: ReportBranch, },
   { path: '/accountmanager', name: 'Tài khoản quản lý', component: AccountManager, roles: ["Admin"] },
   { path: '/accountaccountant', name: 'Tài khoản nhan vien', component: AccountAccountant, roles: ["Admin"] },
   { path: '/accountchiefmanager', name: 'Tài khoản quan ly truong', component: AccountChiefmanager, roles: ["Admin"] },
