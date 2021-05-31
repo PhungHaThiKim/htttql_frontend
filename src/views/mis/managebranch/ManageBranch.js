@@ -54,7 +54,7 @@ const ManageBranch = () => {
     }, [f5])
 
     async function getBranchs() {
-        var rs = await axios.get("/api/get_branch")
+        var rs = await axios.post("/api/get_branch")
         var rs = rs.data
         var data = rs.data
         console.log(data)

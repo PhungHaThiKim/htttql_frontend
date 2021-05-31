@@ -50,7 +50,7 @@ const ManageDepartment = () => {
 
     async function getDepartment ()
     {
-        var rs = await axios.get("/api/get_department")
+        var rs = await axios.post("/api/get_department")
         var rs = rs.data
         var data = rs.data
 

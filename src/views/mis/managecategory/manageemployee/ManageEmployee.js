@@ -80,7 +80,7 @@ const ManageEmployee = () =>
     async function getDepartment()
     {
 
-        var rs = await axios.get("/api/get_department")
+        var rs = await axios.post("/api/get_department")
         var rs = rs.data
         var data = rs.data
 
@@ -90,7 +90,7 @@ const ManageEmployee = () =>
     }
     async function getTaxs()
     {
-        var rs = await axios.get("/api/get_tax")
+        var rs = await axios.post("/api/get_tax")
         var rs = rs.data
         var data = rs.data
 
@@ -101,7 +101,7 @@ const ManageEmployee = () =>
 
     async function getEmployee()
     {
-        var rs = await axios.get("/api/get_employee")
+        var rs = await axios.post("/api/get_employee")
         var rs = rs.data
         var data = rs.data
 

@@ -71,7 +71,7 @@ const ManagePartner = () => {
 
     async function getPartner ()
     {
-        var rs = await axios.get("/api/getpartners")
+        var rs = await axios.post("/api/getpartners")
         var rs = rs.data
         var data = rs.data // phai nhu nay ms lay dc data
         console.log(rs)

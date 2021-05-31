@@ -60,7 +60,7 @@ const ManageTax = () => {
 
     async function getTax ()
     {
-        var rs = await axios.get("/api/get_tax")
+        var rs = await axios.post("/api/get_tax")
         var rs = rs.data
         var data = rs.data
 
