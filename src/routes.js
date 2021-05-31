@@ -1,7 +1,8 @@
 import React from 'react';
 
-const EditProfile = React.lazy(() => import('./views/mis/editprofile/EditProfile'));
-const ManageAccount = React.lazy(() => import('./views/mis/manageaccount/ManageAccount'));
+const AccountManager = React.lazy(() => import('./views/mis/manageaccount/AccountManager'));
+const AccountAccountant = React.lazy(() => import('./views/mis/manageaccount/AccountAccountant'));
+const AccountChiefmanager = React.lazy(() => import('./views/mis/manageaccount/AccountChiefmanager'));
 const ManageBranch = React.lazy(() => import('./views/mis/managebranch/ManageBranch'));
 const ManagePartner = React.lazy(() => import('./views/mis/managecategory/managepartner/ManagePartner'));
 const ManageDepartment = React.lazy(() => import('./views/mis/managecategory/managedepartment/ManageDepartment'));
@@ -50,9 +51,9 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
 const routes = [
-
-  { path: '/editprofile', name: 'EditProfile', component: EditProfile },
-  { path: '/manageaccount', name: 'Quản lý tài khoản', component: ManageAccount },
+  { path: '/accountmanager', name: 'Tài khoản quản lý', component: AccountManager },
+  { path: '/accountaccountant', name: 'Tài khoản nhan vien', component: AccountAccountant },
+  { path: '/accountchiefmanager', name: 'Tài khoản quan ly truong', component: AccountChiefmanager },
   { path: '/managebranch/', name: 'Quản lý chi nhánh', component: ManageBranch },
   { path: '/managepartner/', name: 'Quản lý thông tin đối tác', component: ManagePartner },
   { path: '/managedepartment/', name: 'Quản lý phòng ban', component: ManageDepartment },

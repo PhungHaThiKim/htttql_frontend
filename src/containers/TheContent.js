@@ -8,6 +8,7 @@ import { CContainer, CFade } from '@coreui/react'
 
 // routes config
 import routes from '../routes'
+import useAccount from 'src/useAccount'
   
 const loading = (
   <div className="pt-3 text-center">
@@ -16,12 +17,15 @@ const loading = (
 )
 
 const TheContent = () => {
+  
+  const {account, saveAccount} = useAccount()
+
   return (
     <main className="c-main">
       <CContainer fluid>
         <Suspense fallback={loading}>
           <Switch>
-            {routes.map((route, idx) => {
+            {account ? routes.map((route, idx) => {
               return route.component && (
                 <Route
                   key={idx}
@@ -34,7 +38,7 @@ const TheContent = () => {
                     </CFade>
                   )} />
               )
-            })}
+            }): <Redirect from="/" to="/login" />}
             <Redirect from="/" to="/dashboard" />
           </Switch>
         </Suspense>
