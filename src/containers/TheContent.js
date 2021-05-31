@@ -26,7 +26,8 @@ const TheContent = () => {
         <Suspense fallback={loading}>
           <Switch>
             {account ? routes.map((route, idx) => {
-              return route.component && (
+              if (!route.roles) {
+                return route.component && (
                 <Route
                   key={idx}
                   path={route.path}
@@ -36,10 +37,23 @@ const TheContent = () => {
                     <CFade>
                       <route.component {...props} />
                     </CFade>
-                  )} />
-              )
+                  )} />)
+              } else {
+                if (route.roles.indexOf(account.type) != -1) {
+                  return route.component && (<Route
+                  key={idx}
+                  path={route.path}
+                  exact={route.exact}
+                  name={route.name}
+                  render={props => (
+                    <CFade>
+                      <route.component {...props} />
+                    </CFade>
+                  )} />)
+                }
+              }
             }): <Redirect from="/" to="/login" />}
-            <Redirect from="/" to="/dashboard" />
+            <Redirect from="/" to="/404" />
           </Switch>
         </Suspense>
       </CContainer>
