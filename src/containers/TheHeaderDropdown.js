@@ -34,7 +34,7 @@ const TheHeaderDropdown = () => {
           color="light"
           className="text-center"
         >
-          <strong>{account.username}</strong>
+          <strong>{account.type}: {account.username}</strong>
         </CDropdownItem>
         {/* <CDropdownItem>
           <CIcon name="cil-bell" className="mfe-2" />

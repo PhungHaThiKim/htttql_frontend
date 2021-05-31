@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CCreateElement,
@@ -16,10 +16,28 @@ import CIcon from '@coreui/icons-react'
 
 // sidebar nav config
 import navigation from './_nav'
+import useAccount from 'src/useAccount'
 
 const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
+  const {account, saveAccount} = useAccount()
+  const [nav, setNav] = React.useState([])
+
+  useEffect(() => {
+    var navTmp = []
+    var role_id = account.type
+    console.log("roleid", role_id)
+    navigation.forEach((e) => {
+      if (!e.roles){
+        navTmp.push(e)
+      }
+      else if (e.roles.indexOf(role_id) != -1){
+        navTmp.push(e)
+      }
+    })
+    setNav(navTmp)
+  }, [account])
 
   return (
     <CSidebar
@@ -41,7 +59,7 @@ const TheSidebar = () => {
       <CSidebarNav>
 
         <CCreateElement
-          items={navigation}
+          items={nav}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,
