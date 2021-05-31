@@ -39,6 +39,7 @@ const ManageProduct = () => {
     const [partner_id, setPartnerId] = useState("")
     const [product_name, setProductName] = useState("")
     const [ctrprice, setCtrPricePro] = useState(0)
+    const [outprice, setOutPrice] = useState(0)
     
 
     const [partners, setPartners] = useState([])
@@ -56,7 +57,7 @@ const ManageProduct = () => {
 
 
     async function getPartners() {
-        var rs = await axios.get("/api/getpartners")
+        var rs = await axios.post("/api/getpartners")
          var rs = rs.data
          var data = rs.data
 
@@ -65,7 +66,7 @@ const ManageProduct = () => {
 
      async function getProduct ()
      {
-         var rs = await axios.get("/api/getproducts")
+         var rs = await axios.post("/api/getproducts")
          var rs = rs.data
          var data = rs.data
  
@@ -105,6 +106,7 @@ const ManageProduct = () => {
         setProductName(item.name)
         setPartnerId(item.partner_id)
         setCtrPricePro(item.ctrprice)
+        setOutPrice(item.outprice)
         
         
         
@@ -118,7 +120,8 @@ const ManageProduct = () => {
             "branch_id" : productselected.branch_id.branch_id,
             "partner_id": partner_id,
             "ctrprice" : ctrprice,
-            "numinbranch": productselected.numinbranch
+            "numinbranch": productselected.numinbranch,
+            "outprice" : outprice
         }
         var rs = await axios.post("/api/edit_product_info", data)
         setF5(!f5)
@@ -268,14 +271,27 @@ const ManageProduct = () => {
                             </CCol>
                         </CFormGroup>
                         <CFormGroup  row>
+                            
+                                <CCol xs="2">
+                                    <CLabel> Giá mua cố định </CLabel>
+                                </CCol>
+                                <CCol >
+                                    <CInput type="number" name="number-input" value={ctrprice} onChange={(e) => setCtrPricePro(e.target.value)}/>
+                                    
+                                </CCol>
+                            
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            
                             <CCol xs="2">
-                                <CLabel> Giá mua cố định </CLabel>
+                                <CLabel> Giá bán </CLabel>
                             </CCol>
                             <CCol >
-                                <CInput type="number" name="number-input" value={ctrprice} onChange={(e) => setCtrPricePro(e.target.value)}/>
+                                <CInput type="number" name="number-input" value={outprice} onChange={(e) => setOutPrice(e.target.value)}/>
                                 
                             </CCol>
-                        </CFormGroup>
+                        
+                    </CFormGroup>
                     
                     </CForm>
                 </CModalBody>

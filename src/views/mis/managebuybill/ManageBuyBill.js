@@ -25,6 +25,7 @@ import axios from 'axios'
 import useAccount from 'src/useAccount'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import moment from 'moment'
 
 const ManageBuyBill = () => {
 
@@ -40,11 +41,12 @@ const ManageBuyBill = () => {
     const [partner_id, setPartnerId] = useState("")
     const [product_id, setProductId] = useState("")
     const [productchoose, setProductChoose] = useState({})
-    const [bill_date, setBillDate] = useState("")
+    const [time, setBillDate] = useState("")
     const [product_price, setProductPrice] = useState(0)
     const [product_num, setProductNum] = useState(0)
     const [productpartner, setProductPartner] = useState([])
     const [list_product, setListProduct] = useState([])
+    const [payment, setPayment] = useState("")
 
     const [buybill, setBuyBill] = useState(
         []
@@ -58,7 +60,7 @@ const ManageBuyBill = () => {
 
     async function getBuyBill()
     {
-        var rs = await axios.get("/api/getbuybill")
+        var rs = await axios.post("/api/getbuybill")
         var rs = rs.data
         var data = rs.data
         
@@ -114,6 +116,7 @@ const ManageBuyBill = () => {
             "number": product_num,
             "price": product_price
         })
+        console.log(producttmp)
         setListProduct(producttmp)
     }
 
@@ -129,7 +132,7 @@ const ManageBuyBill = () => {
 
     async function getPartner ()
     {
-        var rs = await axios.get("/api/getpartners")
+        var rs = await axios.post("/api/getpartners")
         var rs = rs.data
         var data = rs.data // phai nhu nay ms lay dc data
         console.log(rs)
@@ -160,6 +163,37 @@ const ManageBuyBill = () => {
         })
     }
 
+    async function addBuyBill() {
+        var rq = {
+            "userid": account.user_id,
+            "time": moment(time).format("DD/MM/YYYY"),
+            "list_product": [],
+            "list_price": [],
+            "number_product": [],
+            "name": "Hóa đơn mua",
+            "content": "Hóa đơn mua",
+            "payment": payment
+        }
+
+        for (var i=0; i<list_product.length; i++) {
+            rq.list_product.push(list_product[i].product.product_id)
+            rq.list_price.push(parseFloat(list_product[i].price))
+            rq.number_product.push(parseInt(list_product[i].number))
+        }
+
+        console.log(rq)
+        var rs = await axios.post("/api/addbuybill", rq)
+        setBillDate("")
+        setListProduct([])
+        setPayment("")
+        setPartnerId("")
+        setProductId("")
+        setProductPrice(0)
+        setProductNum(0)
+        setF5(!f5)
+
+    }
+
     return (
         <>
             {/* Add bill */}
@@ -170,6 +204,9 @@ const ManageBuyBill = () => {
               size="lg"
               centered
             >
+                <CModalHeader closeButton className="text-center">
+                <CModalTitle className="w-100 addcustom ">Thêm hóa đơn mua</CModalTitle>
+              </CModalHeader>
                 <CModalBody>
                     <CForm>
                         <CRow>
@@ -177,7 +214,7 @@ const ManageBuyBill = () => {
                                 <CFormGroup>
                                     <CLabel>Doi tac</CLabel>
                                     <CSelect value={partner_id} onChange={(e) => choosePartner(e.target.value)}>
-                                        <option value="" >Chon doi tac</option>
+                                        <option value="" >Chọn đối tác</option>
                                         {
                                             partners.map((item) => 
                                                 <option value={item.partner_id}>{item.partnername}</option>
@@ -188,28 +225,24 @@ const ManageBuyBill = () => {
                             </CCol>
                             <CCol>
                                 <CFormGroup>
-                                    <CLabel>Ngay thang</CLabel>
-                                    <CInput type="date" value={bill_date} onChange={(e) => setBillDate(e.target.value)}></CInput>
+                                    <CLabel>Ngày mua</CLabel>
+                                    <CInput type="date" value={time} onChange={(e) => setBillDate(e.target.value)}></CInput>
                                 </CFormGroup>
                             </CCol>
                         </CRow>
                         <CRow>
-                            <CCol>
-                                <CLabel>San pham</CLabel>
+                            <CCol xs="7">
+                                <CLabel>Sản phẩm</CLabel>
                             </CCol>
                             <CCol>
-                                <CLabel>So luong (cai)</CLabel>
+                                <CLabel>Số lượng</CLabel>
                             </CCol>
-                            <CCol>
-                                <CLabel>Gia</CLabel>
-                            </CCol>
-                            <CCol xs="2">
-                            </CCol>
+                            
                         </CRow>
                         <CRow>
-                            <CCol>
+                            <CCol  xs="7">
                                 <CSelect value={product_id} onChange={(e) => chooseProduct(e.target.value)}>
-                                    <option value="">chon san pham</option>
+                                    <option value="">Chọn sản phẩm</option>
                                     {
                                         productpartner.map((item) => 
                                             <option value={item.product_id}>{item.name}</option>
@@ -220,13 +253,34 @@ const ManageBuyBill = () => {
                             <CCol>
                                 <CInput type="number" value={product_num} onChange={(e) => setProductNum(e.target.value)}></CInput>
                             </CCol>
+                            {/* <CCol xs="2">
+                                <CButton color="success" onClick={(e) => addProductView()}>Thêm</CButton>
+                            </CCol> */}
+                        </CRow>
+                        <br></br>
+                        <CRow>
+                            <CCol>
+                                <CLabel>Giá (VNĐ)</CLabel>
+                            </CCol>
+                        
+                            <CCol>
+                                <CLabel>Hình thức thanh toán</CLabel>
+                            </CCol>
+                            <CCol xs="2">
+                            </CCol>
+                        </CRow>
+                        <CRow>
                             <CCol>
                                 <CInput type="number" value={product_price} onChange={(e) => setProductPrice(e.target.value)}></CInput>
                             </CCol>
+                            <CCol>
+                                <CInput type="text-input" value={payment} onChange={(e) => setPayment(e.target.value)}></CInput>
+                            </CCol>
                             <CCol xs="2">
-                                <CButton color="success" onClick={(e) => addProductView()}>Them</CButton>
+                                <CButton color="success" onClick={(e) => addProductView()}>Thêm</CButton>
                             </CCol>
                         </CRow>
+                        
                     </CForm>
 
                     <CRow>
@@ -234,7 +288,7 @@ const ManageBuyBill = () => {
                         <table className="table table-striped text-center mt-3">
                             <thead>
                                 <th scope="col">  # </th>
-                                <th scope="col">  San pham </th>
+                                <th scope="col">  Sản phẩm </th>
                                 <th scope="col">  Số lượng sản phầm </th>
                                 <th scope="col">  Giá </th>
                                 <th scope="col">  x </th>
@@ -257,7 +311,12 @@ const ManageBuyBill = () => {
                         </table>
                         </CCol>
                     </CRow>
+                   
                 </CModalBody>
+                <CModalFooter className="justify-content-center">
+                    <CButton color="primary" onClick={() => addBuyBill()}>Thêm hóa đơn</CButton>{' '}
+                    <CButton color="secondary" onClick={() => setAddbill(!addbill)}>Hủy</CButton>
+              </CModalFooter>
             </CModal>
 
             {/* View bill */}
@@ -301,7 +360,7 @@ const ManageBuyBill = () => {
                                     <div class="col-12">
                                         <div class="text-center text-150">
                                             <i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
-                                            <span class="text-default-d3"> {buybillselected ? buybillselected.documentid.name: ""}</span>
+                                            <span class="text-default-d3"> HÓA ĐƠN MUA HÀNG</span>
                                         </div>
                                     </div>
                                 </div>
@@ -352,10 +411,10 @@ const ManageBuyBill = () => {
                                 <div class="mt-4">
                                     <div class="row text-600 text-white bgc-default-tp1 py-25">
                                         <div class="d-none d-sm-block col-1">#</div>
-                                        <div class="col-9 col-sm-5">Sản phẩm</div>
+                                        <div class="col-9 col-sm-4">Sản phẩm</div>
                                         <div class="d-none d-sm-block col-4 col-sm-2">Số lượng</div>
                                         <div class="d-none d-sm-block col-sm-2">Giá mua</div>
-                                        <div class="col-2">Tổng giá</div>
+                                        <div class="col-3">Tổng giá</div>
                                     </div>
 
                                     <div class="text-95 text-secondary-d3">
@@ -364,10 +423,10 @@ const ManageBuyBill = () => {
                                                 buybillselected ? buybillselected.list_product.map((item, idx) => 
                                                  <>
                                                     <div class="d-none d-sm-block col-1">{idx+1}</div>
-                                                    <div class="col-9 col-sm-5">{item.name}</div>
-                                                    <div class="d-none d-sm-block col-2">{item.numinbill}</div>
-                                                    <div class="d-none d-sm-block col-2 text-95">{item.inprice.toLocaleString('en-US')+"VNĐ"}</div>
-                                                    <div class="col-2 text-secondary-d2">{(item.numinbill * item.inprice).toLocaleString('en-US')+"VNĐ"}</div>
+                                                    <div class="col-9 col-sm-4">{item.name}</div>
+                                                    <div class="d-none d-sm-block text-center col-1">{item.numinbill}</div>
+                                                    <div class="d-none d-sm-block text-right col-3 text-95">{item.inprice.toLocaleString('en-US')+"VNĐ"}</div>
+                                                    <div class="col-3 text-right text-secondary-d2">{(item.numinbill * item.inprice).toLocaleString('en-US')+"VNĐ"}</div>
                                                 </> 
                                                 ) : ""
                                             }
@@ -383,23 +442,7 @@ const ManageBuyBill = () => {
                                         </div>
 
                                         <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                                            {/* <div class="row my-2">
-                                                <div class="col-5 text-right">
-                                                    Tổng
-                                                </div>
-                                                <div class="col-7">
-                                                    <span class="text-120 text-secondary-d1">{(buybillselected ? buybillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div class="row my-2">
-                                                <div class="col-7 text-right">
-                                                    Tax (10%)
-                                                </div>
-                                                <div class="col-5">
-                                                    <span class="text-110 text-secondary-d1">$225</span>
-                                                </div>
-                                            </div> */}
+                                    
 
                                             <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                                 <div class="col-3 text-right">

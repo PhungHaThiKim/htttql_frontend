@@ -25,40 +25,45 @@ import axios from 'axios'
 import useAccount from 'src/useAccount'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import moment from 'moment'
 
 const ManageSellBill = () => {
 
     const {account, saveAccount} = useAccount() 
 
     const [f5, setF5] = useState(false)
+    const [warning, setWarning] = useState(false)
 
     const [viewbill, setViewBill] = useState(false)
     const [addbill, setAddbill] = useState(false)
-    const [buybillselected, setBuyBillSelected] = useState(null)
+    const [sellbillselected, setSellBillSelected] = useState(null)
 
-    const [partners, setPartners] = useState([])
-    const [partner_id, setPartnerId] = useState("")
     const [product_id, setProductId] = useState("")
     const [productchoose, setProductChoose] = useState({})
-    const [bill_date, setBillDate] = useState("")
+    const [time, setBillDate] = useState("")
     const [product_price, setProductPrice] = useState(0)
     const [product_num, setProductNum] = useState(0)
-    const [productpartner, setProductPartner] = useState([])
+    const [productbranch, setProductBranch] = useState([])
     const [list_product, setListProduct] = useState([])
+    const [payment, setPayment] = useState("")
+    const [customer, setCustomer] = useState("")
+    const [cusphone, setCusphone] = useState("")
+    const [cusaddress, setCusAddress] = useState("")
+    const [taxid, setTaxId] = useState("")
 
-    const [buybill, setBuyBill] = useState(
+    const [buybill, setSellBill] = useState(
         []
     )
     useEffect (() =>
     {
-        getPartner()
-        getBuyBill()
+        getProduct()
+        getSellBill()
     } , [f5]
     )
 
-    async function getBuyBill()
+    async function getSellBill()
     {
-        var rs = await axios.get("/api/getbuybill")
+        var rs = await axios.post("/api/getsellbill")
         var rs = rs.data
         var data = rs.data
         
@@ -68,36 +73,43 @@ const ManageSellBill = () => {
             var total_num = 0
             for (var j=0; j<products.length; j++) {
                 total_num += products[j].numinbill
-                total_price += (products[j].numinbill*products[j].inprice)
+                total_price += (products[j].numinbill*products[j].outprice)
             }
             data[i].total_price = total_price
             data[i].total_num = total_num
         }
-        console.log(data)
+        // console.log(data)
 
-        setBuyBill(data)
+        setSellBill(data)
 
     }
-
-    async function choosePartner(partnerid) {
-        if (partnerid != "") {
-            setPartnerId(partnerid)
-            await getProductPartner(partnerid)
-        } else {
-            setPartnerId("")
-            setProductId("")
-            setProductChoose({})
-            setProductPartner([])
+    async function getProduct() {
+        var rs = await axios.post("/api/getproducts")
+        var rs = rs.data
+        var data = rs.data
+        
+        var producttmp = []
+        for (var i=0; i<data.length; i++){
+            if (data[i].branch_id.branch_id == account.branch.branch_id) {
+                producttmp.push(data[i])
+            }
         }
+        console.log(producttmp)
+
+        setProductBranch(producttmp)
+
+         
     }
+
+
 
     async function chooseProduct(product_id) {
         if (product_id != "") {
             setProductId(product_id)
-            for (var i=0; i<productpartner.length; i++){
-                if (productpartner[i].product_id == product_id) {
-                    setProductPrice(productpartner[i].ctrprice)
-                    setProductChoose(productpartner[i])
+            for (var i=0; i<productbranch.length; i++){
+                if (productbranch[i].product_id == product_id) {
+                    setProductPrice(productbranch[i].ctrprice)
+                    setProductChoose(productbranch[i])
                     break
                 }
             }
@@ -114,6 +126,7 @@ const ManageSellBill = () => {
             "number": product_num,
             "price": product_price
         })
+        console.log(producttmp)
         setListProduct(producttmp)
     }
 
@@ -127,27 +140,7 @@ const ManageSellBill = () => {
         setListProduct(producttmp)
     }
 
-    async function getPartner ()
-    {
-        var rs = await axios.get("/api/getpartners")
-        var rs = rs.data
-        var data = rs.data // phai nhu nay ms lay dc data
-        console.log(rs)
-        setPartners(data) // truyen data vao bien
-    }
-
-    async function getProductPartner(partnerid) {
-        var rq = {
-            "partnerid": partnerid
-        }
-        
-        console.log(rq)
-        var rs = await axios.post("/api/getproductsbypartner", rq)
-        var rs = rs.data
-        var data = rs.data // phai nhu nay ms lay dc data
-        console.log(data)
-        setProductPartner(data) // truyen data vao bien
-    }
+    
 
     const canvasRef = React.useRef(null)
 
@@ -156,12 +149,67 @@ const ManageSellBill = () => {
             const imgData = canvas.toDataURL('image/png')
             const pdf = new jsPDF()
             pdf.addImage(imgData, 'JPEG', 0, 0)
-            pdf.save(`hoadonmua-${buybillselected.documentid.id}.pdf`)
+            pdf.save(`hoadonmua-${sellbillselected.documentid.id}.pdf`)
         })
+    }
+
+    async function addBuyBill() {
+        var rq = {
+            "userid": account.user_id,
+            "time": moment(time).format("DD/MM/YYYY"),
+            "list_product": [],
+            "number_product": [],
+            "name": "Hóa đơn mua",
+            "content": "Hóa đơn mua",
+            "payment": payment
+        }
+
+        for (var i=0; i<list_product.length; i++) {
+            rq.list_product.push(list_product[i].product.product_id)
+            rq.list_price.push(parseFloat(list_product[i].price))
+            rq.number_product.push(parseInt(list_product[i].number))
+        }
+
+        console.log(rq)
+        var rs = await axios.post("/api/addbuybill", rq)
+        setBillDate("")
+        setListProduct([])
+        setPayment("")
+        // setPartnerId("")
+        setProductId("")
+        // setProductPrice(0)
+        setProductNum(0)
+        setF5(!f5)
+
+    }
+    async function deleteSellBill({sellbill_id})
+    {
+        var data = {
+            "id" : sellbill_id
+        }
+        var rs = await axios.post("/api/deletedocument", data)
+        setF5(!f5)
     }
 
     return (
         <>
+         {/* Confirm Delete */}
+            <CModal
+                show={warning} 
+                onClose={() => setWarning(!warning)}
+                color="warning"
+                centered
+                >
+                
+                <CModalBody>
+                    Bạn có chắc chắn muốn hủy?
+                </CModalBody>
+                <CModalFooter className="justify-content-center">
+                    <CButton color="warning" onClick={() => {deleteSellBill(sellbillselected); setWarning(!warning)}}>Hủy</CButton>{' '}
+                    <CButton color="secondary" onClick={() => setWarning(!warning)}>Không</CButton>
+                </CModalFooter>
+
+            </CModal>
             {/* Add bill */}
             <CModal 
               show={addbill} 
@@ -170,48 +218,50 @@ const ManageSellBill = () => {
               size="lg"
               centered
             >
+                <CModalHeader closeButton className="text-center">
+                <CModalTitle className="w-100 addcustom ">Thêm hóa đơn bán</CModalTitle>
+              </CModalHeader>
                 <CModalBody>
                     <CForm>
                         <CRow>
                             <CCol>
                                 <CFormGroup>
-                                    <CLabel>Doi tac</CLabel>
-                                    <CSelect value={partner_id} onChange={(e) => choosePartner(e.target.value)}>
-                                        <option value="" >Chon doi tac</option>
-                                        {
-                                            partners.map((item) => 
-                                                <option value={item.partner_id}>{item.partnername}</option>
-                                            )
-                                        }
-                                    </CSelect>
+                                    <CLabel>Khách hàng</CLabel>
+                                    
+                                    <CInput type="text-vale" value={customer} onChange={ (e) => setCustomer(e.target.value)}></CInput>
+                                    {/* <CInput type="text-value" value={time} onChange={(e) => setBillDate(e.target.value)}></CInput> */}
                                 </CFormGroup>
                             </CCol>
+                            <CCol>
+                                 <CFormGroup>
+                                    <CLabel>Số điện thoại</CLabel>
+                                    <CInput type="date" value={cusphone} onChange={(e) => setCusphone(e.target.value)}></CInput>
+                                </CFormGroup>
+                            </CCol>
+                        </CRow>
+                        <CRow>
                             <CCol>
                                 <CFormGroup>
-                                    <CLabel>Ngay thang</CLabel>
-                                    <CInput type="date" value={bill_date} onChange={(e) => setBillDate(e.target.value)}></CInput>
+                                    <CLabel>Địa chỉ</CLabel>
+                                    <CInput type="text-input" value={cusaddress} onChange={(e)=> setCusAddress(e.target.value)}></CInput>
                                 </CFormGroup>
                             </CCol>
                         </CRow>
                         <CRow>
-                            <CCol>
-                                <CLabel>San pham</CLabel>
+                            <CCol xs="7">
+                                <CLabel>Sản phẩm</CLabel>
                             </CCol>
                             <CCol>
-                                <CLabel>So luong (cai)</CLabel>
+                                <CLabel>Số lượng</CLabel>
                             </CCol>
-                            <CCol>
-                                <CLabel>Gia</CLabel>
-                            </CCol>
-                            <CCol xs="2">
-                            </CCol>
+                            
                         </CRow>
                         <CRow>
-                            <CCol>
+                            <CCol  xs="7">
                                 <CSelect value={product_id} onChange={(e) => chooseProduct(e.target.value)}>
-                                    <option value="">chon san pham</option>
+                                    <option value="">Chọn sản phẩm</option>
                                     {
-                                        productpartner.map((item) => 
+                                        productbranch.map((item) => 
                                             <option value={item.product_id}>{item.name}</option>
                                         )
                                     }
@@ -220,13 +270,27 @@ const ManageSellBill = () => {
                             <CCol>
                                 <CInput type="number" value={product_num} onChange={(e) => setProductNum(e.target.value)}></CInput>
                             </CCol>
+                            {/* <CCol xs="2">
+                                <CButton color="success" onClick={(e) => addProductView()}>Thêm</CButton>
+                            </CCol> */}
+                        </CRow>
+                        <br></br>
+                        <CRow>
                             <CCol>
-                                <CInput type="number" value={product_price} onChange={(e) => setProductPrice(e.target.value)}></CInput>
+                                <CLabel>Hình thức thanh toán</CLabel>
                             </CCol>
-                            <CCol xs="2">
-                                <CButton color="success" onClick={(e) => addProductView()}>Them</CButton>
+                            <CCol xs="6">
                             </CCol>
                         </CRow>
+                        <CRow>
+                            <CCol xs="6">
+                                <CInput type="text-input" value={payment} onChange={(e) => setPayment(e.target.value)}></CInput>
+                            </CCol>
+                            <CCol className="text-center" xs="6">
+                                <CButton color="success" onClick={(e) => addProductView()}>Thêm</CButton>
+                            </CCol>
+                        </CRow>
+                        
                     </CForm>
 
                     <CRow>
@@ -234,9 +298,9 @@ const ManageSellBill = () => {
                         <table className="table table-striped text-center mt-3">
                             <thead>
                                 <th scope="col">  # </th>
-                                <th scope="col">  San pham </th>
+                                <th scope="col">  Sản phẩm </th>
                                 <th scope="col">  Số lượng sản phầm </th>
-                                <th scope="col">  Giá </th>
+                                <th scope="col">  Giá bán </th>
                                 <th scope="col">  x </th>
                             </thead>
                             <tbody>
@@ -247,7 +311,7 @@ const ManageSellBill = () => {
                                                 <td scope="row">{idx+1}</td>
                                                 <td>{item.product.name}</td>
                                                 <td>{item.number}</td>
-                                                <td>{item.price}</td>
+                                                <td>{item.outprice}</td>
                                                 <td onClick={() => removeProductView(idx)}><CButton color="danger">x</CButton></td>
                                             </tr>
                                         </>
@@ -257,7 +321,12 @@ const ManageSellBill = () => {
                         </table>
                         </CCol>
                     </CRow>
+                   
                 </CModalBody>
+                <CModalFooter className="justify-content-center">
+                    <CButton color="primary" onClick={() => addBuyBill()}>Thêm hóa đơn</CButton>{' '}
+                    <CButton color="secondary" onClick={() => setAddbill(!addbill)}>Hủy</CButton>
+              </CModalFooter>
             </CModal>
 
             {/* View bill */}
@@ -267,7 +336,7 @@ const ManageSellBill = () => {
               color="primary"
               size="lg"
               centered
-            >
+            > 
                 <CModalBody>
                 <div class="page-content container">
                     <div class="page-header text-blue-d2">
@@ -275,7 +344,7 @@ const ManageSellBill = () => {
                             Mã: 
                             <small class="page-info">
                                 <i class="fa fa-angle-double-right text-80"></i>
-                                {buybillselected ? buybillselected.documentid.id: ""}
+                                {sellbillselected ? sellbillselected.documentid.id: ""}
                             </small>
                         </h1>
 
@@ -301,73 +370,77 @@ const ManageSellBill = () => {
                                     <div class="col-12">
                                         <div class="text-center text-150">
                                             <i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
-                                            <span class="text-default-d3"> {buybillselected ? buybillselected.documentid.name: ""}</span>
+                                            <span class="text-default-d3"> HÓA ĐƠN BÁN HÀNG</span>
+                                            
                                         </div>
+                                        <div class="my-2 text-center "><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày tháng: </span> {sellbillselected ? sellbillselected.documentid.time : ""}</div>
                                     </div>
                                 </div>
 
                                 <hr class="row brc-default-l1 mx-n1 mb-4" />
 
                                 <div class="row">
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-6">
                                         <div>
                                             <span class="text-sm text-grey-m2 align-middle">Đơn vị bán:</span>
-                                            <span class="text-600 text-110 text-blue align-middle"> {buybillselected ? buybillselected.list_product[0].partner_id.partnername : ""}</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> Team4.1 HTTTQL PTIT</span>
                                         </div>
                                         <div>
                                             <span class="text-sm text-grey-m2 align-middle">Mã số thuế:</span>
-                                            <span class="text-600 text-110 text-blue align-middle"> {buybillselected ? buybillselected.list_product[0].partner_id.taxid : ""}</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> 090909999</span>
                                         </div>
                                         <div>
                                             <span class="text-sm text-grey-m2 align-middle">Địa chỉ: </span>
-                                            <span class="text-600 text-110 text-blue align-middle"> {buybillselected ? buybillselected.list_product[0].partner_id.address: ""}</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.documentid.user.branch.branch_location: ""}</span>
                                         </div>
                                         <div>
                                             <span class="text-sm text-grey-m2 align-middle">Số điện thoại: </span>
-                                            <span class="text-600 text-110 text-blue align-middle"> {buybillselected ? buybillselected.list_product[0].partner_id.phone: ""}</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.documentid.user.branch.branch_phone: ""}</span>
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <span class="text-sm text-grey-m2 align-middle">Email: </span>
-                                            <span class="text-600 text-110 text-blue align-middle"> {buybillselected ? buybillselected.list_product[0].partner_id.email: ""}</span>
-                                        </div>
+                                            <span class="text-600 text-110 text-blue align-middle"> httql@team2.</span>
+                                        </div> */}
                                         
                                     </div>
-
-                                    <div class="text-95 col-sm-4 align-self-start d-sm-flex justify-content-end">
-                                        <hr class="d-sm-none" />
-                                        <div class="text-grey-m2">
-                                            <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
-                                                {buybillselected ? buybillselected.documentid.name: ""}
-                                            </div>
-
-                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID:</span>{buybillselected ? buybillselected.documentid.id: ""}</div>
-
-                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày mua: </span> {buybillselected ? buybillselected.documentid.time : ""}</div>
-
-                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Thanh toán: </span> <span class="badge badge-warning badge-pill px-25">{buybillselected ? buybillselected.payment : ""}</span></div>
+                                    <div class="col-sm-6">
+                                        {/* <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Ngày mua: </span> {sellbillselected ? sellbillselected.documentid.time : ""}</div> */}
+                                        <div>
+                                            <span class="text-sm text-grey-m2 align-middle">Khách hàng:</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.customer : ""}</span>
                                         </div>
+                                        <div>
+                                            <span class="text-sm text-grey-m2 align-middle">Số điện thoại:</span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.cusphone : ""}</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-grey-m2 align-middle">Địa chỉ: </span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.cusaddress: ""}</span>
+                                        </div>       
+                                        
                                     </div>
+                          
                                 </div>
 
                                 <div class="mt-4">
                                     <div class="row text-600 text-white bgc-default-tp1 py-25">
                                         <div class="d-none d-sm-block col-1">#</div>
-                                        <div class="col-9 col-sm-5">Sản phẩm</div>
+                                        <div class="col-9 col-sm-4">Sản phẩm</div>
                                         <div class="d-none d-sm-block col-4 col-sm-2">Số lượng</div>
-                                        <div class="d-none d-sm-block col-sm-2">Giá mua</div>
-                                        <div class="col-2">Tổng giá</div>
+                                        <div class="d-none text-center d-sm-block col-sm-2">Giá mua</div>
+                                        <div class="col-3 text-center">Tổng giá</div>
                                     </div>
 
                                     <div class="text-95 text-secondary-d3">
                                         <div class="row mb-2 mb-sm-0 py-25">
                                             {
-                                                buybillselected ? buybillselected.list_product.map((item, idx) => 
+                                                sellbillselected ? sellbillselected.list_product.map((item, idx) => 
                                                  <>
                                                     <div class="d-none d-sm-block col-1">{idx+1}</div>
-                                                    <div class="col-9 col-sm-5">{item.name}</div>
-                                                    <div class="d-none d-sm-block col-2">{item.numinbill}</div>
-                                                    <div class="d-none d-sm-block col-2 text-95">{item.inprice.toLocaleString('en-US')+"VNĐ"}</div>
-                                                    <div class="col-2 text-secondary-d2">{(item.numinbill * item.inprice).toLocaleString('en-US')+"VNĐ"}</div>
+                                                    <div class="col-9 col-sm-4">{item.name}</div>
+                                                    <div class="d-none d-sm-block text-center col-1">{item.numinbill}</div>
+                                                    <div class="d-none d-sm-block text-right col-3 text-95">{item.outprice.toLocaleString('en-US')+"VNĐ"}</div>
+                                                    <div class="col-3 text-right text-secondary-d2">{(item.numinbill * item.outprice).toLocaleString('en-US')+"VNĐ"}</div>
                                                 </> 
                                                 ) : ""
                                             }
@@ -383,30 +456,12 @@ const ManageSellBill = () => {
                                         </div>
 
                                         <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                                            {/* <div class="row my-2">
-                                                <div class="col-5 text-right">
-                                                    Tổng
-                                                </div>
-                                                <div class="col-7">
-                                                    <span class="text-120 text-secondary-d1">{(buybillselected ? buybillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div class="row my-2">
-                                                <div class="col-7 text-right">
-                                                    Tax (10%)
-                                                </div>
-                                                <div class="col-5">
-                                                    <span class="text-110 text-secondary-d1">$225</span>
-                                                </div>
-                                            </div> */}
-
                                             <div class="row my-2 align-items-center bgc-primary-l3 p-2">
-                                                <div class="col-3 text-right">
+                                                <div class="col-2 text-right">
                                                     Tổng
                                                 </div>
-                                                <div class="col-9">
-                                                    <span class="text-150 text-success-d3 opacity-2">{(buybillselected ? buybillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
+                                                <div class="col-10">
+                                                    <span class="text-150 text-success-d3 opacity-2">{(sellbillselected ? sellbillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -431,16 +486,16 @@ const ManageSellBill = () => {
                 <CCol>
                     <CCard>
                         <CCardHeader>
-                            <CButton color="primary" onClick={() => setAddbill(!addbill)}  >Thêm hóa đơn mua</CButton>
+                            <CButton color="primary" onClick={() => setAddbill(!addbill)}  >Thêm hóa đơn bán</CButton>
                         </CCardHeader>
                         <CCardBody>
                             <table className="table table-striped text-center">
                                 <thead>
                                     <th scope="col">  Mã hóa đơn </th>
-                                    <th scope="col">  Tên đối tác </th>
+                                    <th scope="col">  Thông tin khách hàng </th>
                                     <th scope="col">  Số lượng sản phầm </th>
                                     <th scope="col">  Tổng giá </th>
-                                    <th scope="col">  Hình thức thanh toán </th>
+                                    <th scope="col">  Nhân viên thanh toán </th>
                                     
                                     <th>Chức năng</th>
                                 </thead>
@@ -450,12 +505,13 @@ const ManageSellBill = () => {
                                         <>
                                             <tr>
                                                 <td scope="row">{item.documentid.id}</td>
-                                                <td>{item.list_product[0].partner_id.partnername}</td>
+                                                <td className="text-left"> - Họ tên:  {item.customer} <br/> - Địa chỉ:  {item.cusaddress} <br/> - Số điện thoại:  {item.cusphone}</td>
                                                 <td>{item.total_num}</td>
                                                 <td>{item.total_price}</td>
-                                                <td>{item.payment}</td>
+                                                <td>{item.documentid.user.user_id}</td>
                                                 <td>
-                                                    <CButton color="info" onClick = { () => { setBuyBillSelected(item); setViewBill(!viewbill)}}>Xem chi tiết</CButton>
+                                                    <CButton color="info" onClick = { () => { setSellBillSelected(item); setViewBill(!viewbill)}}>Xem chi tiết</CButton>
+                                                    <CButton color="danger" onClick = { () => {setSellBillSelected(item); setWarning(!warning)}}>Hủy</CButton>
                                                 </td>
                                             </tr>
                                         </>
