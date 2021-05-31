@@ -21,7 +21,7 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Tài khoản quản lý trưởng',
-    to: '/manageaccount',
+    to: '/accountchiefmanager',
     icon: 'cil-drop',
   },
   {

@@ -246,7 +246,7 @@ const AccountAccountant = () => {
               centered
             >
               <CModalHeader closeButton className="text-center">
-                <CModalTitle className="w-100 addcustom ">Sửa chi nhánh</CModalTitle>
+                <CModalTitle className="w-100 addcustom ">Them tai khoan</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm className="form-horizontal">

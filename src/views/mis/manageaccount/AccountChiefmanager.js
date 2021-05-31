@@ -279,7 +279,7 @@ const AccountChiefmanager = () => {
                 <CCol>
                     <CCard> 
                         <CCardHeader>
-                            <CButton color="primary" onClick={() => setAddAccount(!add_account)}>Thêm chi nhánh</CButton>
+                            <CButton color="primary" onClick={() => setAddAccount(!add_account)}>Them tai khoan</CButton>
                         </CCardHeader>
                         <CCardBody>
                             <table class="table table-striped text-center">

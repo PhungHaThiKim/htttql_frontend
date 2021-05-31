@@ -1,7 +1,8 @@
 import React from 'react';
 
 const AccountManager = React.lazy(() => import('./views/mis/manageaccount/AccountManager'));
-const AccountAccoutant = React.lazy(() => import('./views/mis/manageaccount/AccountAccountant'));
+const AccountAccountant = React.lazy(() => import('./views/mis/manageaccount/AccountAccountant'));
+const AccountChiefmanager = React.lazy(() => import('./views/mis/manageaccount/AccountChiefmanager'));
 const ManageBranch = React.lazy(() => import('./views/mis/managebranch/ManageBranch'));
 const ManagePartner = React.lazy(() => import('./views/mis/managecategory/managepartner/ManagePartner'));
 const ManageDepartment = React.lazy(() => import('./views/mis/managecategory/managedepartment/ManageDepartment'));
@@ -51,6 +52,7 @@ const User = React.lazy(() => import('./views/users/User'));
 const routes = [
   { path: '/accountmanager', name: 'Tài khoản quản lý', component: AccountManager },
   { path: '/accountaccountant', name: 'Tài khoản nhan vien', component: AccountAccountant },
+  { path: '/accountchiefmanager', name: 'Tài khoản quan ly truong', component: AccountChiefmanager },
   { path: '/managebranch/', name: 'Quản lý chi nhánh', component: ManageBranch },
   { path: '/managepartner/', name: 'Quản lý thông tin đối tác', component: ManagePartner },
   { path: '/managedepartment/', name: 'Quản lý phòng ban', component: ManageDepartment },
