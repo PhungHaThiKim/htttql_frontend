@@ -94,7 +94,7 @@ const ManageDepartment = () => {
 
     async function editDepart (item) {
         setDepartSelected(item);
-        
+        setBranchId(item.branch.branch_id)
         setDepartName(item.department_name)
         
         

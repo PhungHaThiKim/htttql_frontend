@@ -74,10 +74,14 @@ const ManageEmployee = () =>
     {
         getBranchs()
         getTaxs()
-        getDepartment()
+        // getDepartment()
         getEmployee()
     } , [f5]
     )
+
+    useEffect(() => {
+        getDepartment()
+    }, [branch_id])
 
     async function getBranchs() {
         var rs = await axios.post("/api/get_branch")
@@ -95,8 +99,14 @@ const ManageEmployee = () =>
         var data = rs.data
 
         console.log(rs)
+        var datatmp = []
+        for(var i=0; i<data.length; i++) {
+            if (data[i].branch.branch_id == branch_id) {
+                datatmp.push(data[i])
+            }
+        }
 
-        setDepartments(data)
+        setDepartments(datatmp)
     }
     async function getTaxs()
     {
@@ -249,19 +259,6 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ten phong ban</CLabel>
-                                <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
-                                    <option value="">Chon phong ban</option>
-                                    {
-                                        departments.map((item) => 
-                                            <option value={item.department_id} >{item.department_name}</option>
-                                        )
-                                    }
-                                </CSelect>
-                            </CFormGroup>
-                            </CCol>
-                            <CCol xs="6">
-                            <CFormGroup>
                                 <CLabel >Chi nhanh</CLabel>
                                 {
                                     account.type == "Chiefmanager" ? <>
@@ -277,6 +274,19 @@ const ManageEmployee = () =>
                                         <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
                                     </>
                                 }
+                            </CFormGroup>
+                            </CCol>
+                            <CCol xs="6">
+                            <CFormGroup>
+                                <CLabel >Ten phong ban</CLabel>
+                                <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
+                                    <option value="">Chon phong ban</option>
+                                    {
+                                        departments.map((item) => 
+                                            <option value={item.department_id} >{item.department_name}</option>
+                                        )
+                                    }
+                                </CSelect>
                             </CFormGroup>
                             </CCol>
                         </CFormGroup>
@@ -390,19 +400,6 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ten phong ban</CLabel>
-                                <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
-                                    <option value="">Chon phong ban</option>
-                                    {
-                                        departments.map((item) => 
-                                            <option value={item.department_id} >{item.department_name}</option>
-                                        )
-                                    }
-                                </CSelect>
-                            </CFormGroup>
-                            </CCol>
-                            <CCol xs="6">
-                            <CFormGroup>
                                 <CLabel >Chi nhanh</CLabel>
                                 {
                                     account.type == "Chiefmanager" ? <>
@@ -418,6 +415,19 @@ const ManageEmployee = () =>
                                         <CInput id="text-input" name="text-input" value={account.branch.branch_location} readOnly/>
                                     </>
                                 }
+                            </CFormGroup>
+                            </CCol>
+                            <CCol xs="6">
+                            <CFormGroup>
+                                <CLabel >Ten phong ban</CLabel>
+                                <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
+                                    <option value="">Chon phong ban</option>
+                                    {
+                                        departments.map((item) => 
+                                            <option value={item.department_id} >{item.department_name}</option>
+                                        )
+                                    }
+                                </CSelect>
                             </CFormGroup>
                             </CCol>
                         </CFormGroup>
