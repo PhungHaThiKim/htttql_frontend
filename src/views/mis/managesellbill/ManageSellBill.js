@@ -121,11 +121,21 @@ const ManageSellBill = () => {
 
     async function addProductView() {
         var producttmp = [...list_product]  //copy array
-        producttmp.push({
-            "product": productchoose,
-            "number": product_num,
-            "price": product_price
-        })
+        var check = false
+        for (var i = 0; i<producttmp.length; i++) {
+            if (producttmp[i].product.product_id == productchoose.product_id) {
+                check = true
+                producttmp[i].number += parseInt(product_num)
+                break;
+            }
+        }
+        if (check == false) {
+            producttmp.push({
+                "product": productchoose,
+                "number": parseInt(product_num),
+                "price": parseFloat(productchoose.outprice)
+            })
+        }
         console.log(producttmp)
         setListProduct(producttmp)
     }
@@ -153,39 +163,47 @@ const ManageSellBill = () => {
         })
     }
 
-    async function addBuyBill() {
+    async function addSellBill() {
         var rq = {
             "userid": account.user_id,
-            "time": moment(time).format("DD/MM/YYYY"),
+            // "time": moment(time).format("DD/MM/YYYY"),
+            "branchid": account.branch.branch_id,
             "list_product": [],
             "number_product": [],
             "name": "Hóa đơn mua",
             "content": "Hóa đơn mua",
-            "payment": payment
+            "payment": payment,
+            "customer": customer,
+            "cusaddress": cusaddress,
+            "cusphone": cusphone,
+            "taxid": "10000000"
         }
 
         for (var i=0; i<list_product.length; i++) {
             rq.list_product.push(list_product[i].product.product_id)
-            rq.list_price.push(parseFloat(list_product[i].price))
+            // rq.list_price.push(parseFloat(list_product[i].price))
             rq.number_product.push(parseInt(list_product[i].number))
         }
 
         console.log(rq)
-        var rs = await axios.post("/api/addbuybill", rq)
-        setBillDate("")
+        var rs = await axios.post("/api/addsellbill", rq)
+        // setBillDate("")
         setListProduct([])
         setPayment("")
         // setPartnerId("")
         setProductId("")
+        setCusAddress("")
+        setCusphone("")
+        setCustomer("")
         // setProductPrice(0)
         setProductNum(0)
         setF5(!f5)
 
     }
-    async function deleteSellBill({sellbill_id})
+    async function deleteSellBill(sellbill)
     {
         var data = {
-            "id" : sellbill_id
+            "id" : sellbill.documentid.id
         }
         var rs = await axios.post("/api/deletedocument", data)
         setF5(!f5)
@@ -235,7 +253,7 @@ const ManageSellBill = () => {
                             <CCol>
                                  <CFormGroup>
                                     <CLabel>Số điện thoại</CLabel>
-                                    <CInput type="date" value={cusphone} onChange={(e) => setCusphone(e.target.value)}></CInput>
+                                    <CInput type="text-input" value={cusphone} onChange={(e) => setCusphone(e.target.value)}></CInput>
                                 </CFormGroup>
                             </CCol>
                         </CRow>
@@ -270,9 +288,7 @@ const ManageSellBill = () => {
                             <CCol>
                                 <CInput type="number" value={product_num} onChange={(e) => setProductNum(e.target.value)}></CInput>
                             </CCol>
-                            {/* <CCol xs="2">
-                                <CButton color="success" onClick={(e) => addProductView()}>Thêm</CButton>
-                            </CCol> */}
+                           
                         </CRow>
                         <br></br>
                         <CRow>
@@ -299,7 +315,7 @@ const ManageSellBill = () => {
                             <thead>
                                 <th scope="col">  # </th>
                                 <th scope="col">  Sản phẩm </th>
-                                <th scope="col">  Số lượng sản phầm </th>
+                                <th scope="col">  Số lượng</th>
                                 <th scope="col">  Giá bán </th>
                                 <th scope="col">  x </th>
                             </thead>
@@ -311,7 +327,7 @@ const ManageSellBill = () => {
                                                 <td scope="row">{idx+1}</td>
                                                 <td>{item.product.name}</td>
                                                 <td>{item.number}</td>
-                                                <td>{item.outprice}</td>
+                                                <td>{item.price}</td>
                                                 <td onClick={() => removeProductView(idx)}><CButton color="danger">x</CButton></td>
                                             </tr>
                                         </>
@@ -324,7 +340,7 @@ const ManageSellBill = () => {
                    
                 </CModalBody>
                 <CModalFooter className="justify-content-center">
-                    <CButton color="primary" onClick={() => addBuyBill()}>Thêm hóa đơn</CButton>{' '}
+                    <CButton color="primary" onClick={() => addSellBill()}>Thêm hóa đơn</CButton>{' '}
                     <CButton color="secondary" onClick={() => setAddbill(!addbill)}>Hủy</CButton>
               </CModalFooter>
             </CModal>
@@ -416,6 +432,10 @@ const ManageSellBill = () => {
                                         <div>
                                             <span class="text-sm text-grey-m2 align-middle">Địa chỉ: </span>
                                             <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.cusaddress: ""}</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-grey-m2 align-middle">NV thanh toán: </span>
+                                            <span class="text-600 text-110 text-blue align-middle"> {sellbillselected ? sellbillselected.documentid.user.user_id: ""}</span>
                                         </div>       
                                         
                                     </div>
@@ -450,22 +470,44 @@ const ManageSellBill = () => {
 
                                     <div class="row border-b-2 brc-default-l2"></div>
 
+                                    {/* thue */}
                                     <div class="row mt-3">
-                                        <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
-                                            Lưu ý: Giá sản phẩm đã bao gồm thuế
+                                        <div class="col-12 col-sm-5 text-grey-d2 text-95 mt-2 mt-lg-0">
+                                           
                                         </div>
 
-                                        <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                                            <div class="row my-2 align-items-center bgc-primary-l3 p-2">
-                                                <div class="col-2 text-right">
+                                        <div class="col-12 col-sm-7 text-grey text-90 order-first order-sm-last">
+                                            <div class="row my-2">
+                                                <div class="col-5 text-left">
                                                     Tổng
                                                 </div>
-                                                <div class="col-10">
-                                                    <span class="text-150 text-success-d3 opacity-2">{(sellbillselected ? sellbillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
+                                                <div class="col-7 text-right">
+                                                    <span class="text-120 text-secondary-d1">{(sellbillselected ? sellbillselected.documentid.amount : "").toLocaleString('en-US')+" VNĐ"}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row my-2">
+                                                <div class="col-5 text-left">
+                                                    VAT (10%)
+                                                </div>
+                                                <div class="col-7 text-right">
+                                                    <span class="text-120 text-secondary-d1">{parseFloat(sellbillselected ? (sellbillselected.documentid.amount*sellbillselected.tax.percentage/100) : "").toLocaleString('en-US')+" VNĐ"}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row my-2 align-items-center bgc-primary-l3">
+                                                <div class="col-5 text-left text-danger">
+                                                    Tổng thanh toán
+                                                </div>
+                                                <div class="col-7 text-right">
+                                                    <span class="text-150 text-success-d3 opacity-2 font-weight-bold text-danger">{parseFloat(sellbillselected ? (sellbillselected.documentid.amount*sellbillselected.tax.percentage/100 + sellbillselected.documentid.amount) : "").toLocaleString('en-US')+" VNĐ"}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
+
+                                    
 
                                     <hr />
 
@@ -507,7 +549,7 @@ const ManageSellBill = () => {
                                                 <td scope="row">{item.documentid.id}</td>
                                                 <td className="text-left"> - Họ tên:  {item.customer} <br/> - Địa chỉ:  {item.cusaddress} <br/> - Số điện thoại:  {item.cusphone}</td>
                                                 <td>{item.total_num}</td>
-                                                <td>{item.total_price}</td>
+                                                <td className="text-right">{item.total_price ? item.total_price.toLocaleString('en-US')+"VNĐ": ""}</td>
                                                 <td>{item.documentid.user.user_id}</td>
                                                 <td>
                                                     <CButton color="info" onClick = { () => { setSellBillSelected(item); setViewBill(!viewbill)}}>Xem chi tiết</CButton>

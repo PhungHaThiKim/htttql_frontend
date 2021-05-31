@@ -111,11 +111,21 @@ const ManageBuyBill = () => {
 
     async function addProductView() {
         var producttmp = [...list_product]  //copy array
-        producttmp.push({
-            "product": productchoose,
-            "number": product_num,
-            "price": product_price
-        })
+        var check = false
+        for (var i = 0; i<producttmp.length; i++) {
+            if (producttmp[i].product.product_id == productchoose.product_id) {
+                check = true
+                producttmp[i].number += parseInt(product_num)
+                break;
+            }
+        }
+        if (check == false) {
+            producttmp.push({
+                "product": productchoose,
+                "number": parseInt(product_num),
+                "price": parseFloat(product_price)
+            })
+        }
         console.log(producttmp)
         setListProduct(producttmp)
     }
@@ -495,7 +505,7 @@ const ManageBuyBill = () => {
                                                 <td scope="row">{item.documentid.id}</td>
                                                 <td>{item.list_product[0].partner_id.partnername}</td>
                                                 <td>{item.total_num}</td>
-                                                <td>{item.total_price}</td>
+                                                <td className="text-right">{item.total_price ? item.total_price.toLocaleString('en-US')+"VNĐ": ""}</td>
                                                 <td>{item.payment}</td>
                                                 <td>
                                                     <CButton color="info" onClick = { () => { setBuyBillSelected(item); setViewBill(!viewbill)}}>Xem chi tiết</CButton>

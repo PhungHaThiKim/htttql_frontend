@@ -96,6 +96,25 @@ const _nav =  [
     to: '/managesellbill',
     icon: 'cil-drop',
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý lương',
+    to: '/managesalary',
+    icon: 'cil-drop',
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Quản lý vay nợ']
+    // roles: ["Manager", "Chiefmanager"]
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý cho vay',
+    to: '/managelend',
+    icon: 'cil-drop',
+     // roles: ["Manager", "Chiefmanager"]
+  },
+
 
 
 

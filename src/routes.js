@@ -11,6 +11,10 @@ const ManageTax = React.lazy(() => import('./views/mis/managecategory/managetax/
 const ManageEmployee = React.lazy(() => import('./views/mis/managecategory/manageemployee/ManageEmployee'));
 const ManageBuyBill = React.lazy(() => import('./views/mis/managebuybill/ManageBuyBill'));
 const ManageSellBill = React.lazy(() => import('./views/mis/managesellbill/ManageSellBill'));
+const ManageSalary = React.lazy(() => import('./views/mis/managesalary/ManageSalary'));
+const ManageLend = React.lazy(() => import('./views/mis/managelend/ManageLend'));
+
+const ManageReciept = React.lazy(() => import('./views/mis/managereciept/ManageReciept'));
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -63,6 +67,9 @@ const routes = [
   { path: '/manageemployee/', name: 'Quản lý nhân viên', component: ManageEmployee,},
   { path: '/managebuybill/', name: 'Quản lý hóa đơn mua', component: ManageBuyBill},
   { path: '/managesellbill/', name: 'Quản lý hóa đơn bán', component: ManageSellBill},
+  { path: '/managesalary/', name: 'Quản lý lương', component: ManageSalary},
+  { path: '/managereciept/', name: 'Quản lý chi phí phát sinh', component: ManageReciept},
+  { path: '/managelend/', name: 'Quản lý cho vay', component: ManageLend},
 
   { path: '/', exact: true, name: 'Trang chủ' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
