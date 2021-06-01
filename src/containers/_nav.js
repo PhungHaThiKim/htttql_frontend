@@ -31,104 +31,123 @@ const _nav =  [
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Quản lý chi nhánh'],
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý chi nhánh',
     to: '/managebranch',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Quản lý danh mục'],
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý thông tin đối tác',
     to: '/managepartner',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý phòng ban',
     to: '/managedepartment',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý sản phẩm',
     to: '/manageproduct',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý thuế',
     to: '/managetax',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý nhân viên',
     to: '/manageemployee',
     icon: 'cil-drop',
-    // roles: ["Manager", "Chiefmanager"]
+    roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Quản lý hóa đơn']
+    _children: ['Quản lý hóa đơn'],
+    roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý hóa đơn mua',
     to: '/managebuybill',
     icon: 'cil-drop',
+    roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý hóa đơn bán',
     to: '/managesellbill',
     icon: 'cil-drop',
+    roles: ["Accountant"]
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Quản lý chi phí phát sinh',
+    to: '/managereciept',
+    icon: 'cil-drop',
+    roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý lương',
     to: '/managesalary',
     icon: 'cil-drop',
+    roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Quản lý vay nợ']
-    // roles: ["Manager", "Chiefmanager"]
+    _children: ['Quản lý vay nợ'],
+   roles: [ "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý cho vay',
     to: '/managelend',
     icon: 'cil-drop',
-     // roles: ["Manager", "Chiefmanager"]
+    roles: [ "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Tổng hợp tài chính chi nhánh']
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Thống kê tài chính',
-    to: '/statisticbranch',
-    icon: 'cil-drop',
+    _children: ['Tổng hợp tài chính chi nhánh'],
+    roles: [  "Manager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Báo cáo tài chính',
     to: '/reportbranch',
     icon: 'cil-drop',
+    roles: [ "Manager"]
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Thống kê thu chi'],
+    roles: [  "Chiefmanager"]
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Thống kê tài chính',
+    to: '/statisticbranch',
+    icon: 'cil-drop',
+    roles: [ "Chiefmanager"]
   },
 
   
