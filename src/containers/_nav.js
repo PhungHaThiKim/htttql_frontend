@@ -11,21 +11,21 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Tài khoản nhân viên',
     to: '/accountaccountant',
-    icon: 'cil-drop',
+    icon: 'cil-user',
     roles: ['Admin']
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Tài khoản quản lý',
     to: '/accountmanager',
-    icon: 'cil-drop',
+    icon: 'cil-user',
     roles: ['Admin']
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Tài khoản quản lý trưởng',
     to: '/accountchiefmanager',
-    icon: 'cil-drop',
+    icon: 'cil-user',
     roles: ['Admin']
   },
   {
@@ -37,7 +37,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Quản lý chi nhánh',
     to: '/managebranch',
-    icon: 'cil-drop',
+    icon: 'cil-building',
     roles: ["Chiefmanager"]
   },
   {
@@ -49,35 +49,35 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Quản lý thông tin đối tác',
     to: '/managepartner',
-    icon: 'cil-drop',
+    icon: 'cil-briefcase',
     roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý phòng ban',
     to: '/managedepartment',
-    icon: 'cil-drop',
+    icon: 'cil-room',
     roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý sản phẩm',
     to: '/manageproduct',
-    icon: 'cil-drop',
+    icon: 'cil-tags',
     roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý thuế',
     to: '/managetax',
-    icon: 'cil-drop',
+    icon: 'cil-check-circle',
     roles: ["Manager", "Chiefmanager"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý nhân viên',
     to: '/manageemployee',
-    icon: 'cil-drop',
+    icon: 'cil-address-book',
     roles: ["Manager", "Chiefmanager"]
   },
   {
@@ -89,35 +89,35 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Nhập số dư đầu kỳ',
     to: '/managebalance',
-    icon: 'cil-drop',
+    icon: 'cil-cash',
     roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý hóa đơn mua',
     to: '/managebuybill',
-    icon: 'cil-drop',
+    icon: 'cil-library',
     roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý hóa đơn bán',
     to: '/managesellbill',
-    icon: 'cil-drop',
+    icon: 'cil-library',
     roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý chi phí phát sinh',
     to: '/managereciept',
-    icon: 'cil-drop',
+    icon: 'cil-color-border',
     roles: ["Accountant"]
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Quản lý lương',
     to: '/managesalary',
-    icon: 'cil-drop',
+    icon: 'cil-dollar',
     roles: ["Accountant"]
   },
   
@@ -130,7 +130,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Quản lý cho vay',
     to: '/managelend',
-    icon: 'cil-drop',
+    icon: 'cil-clipboard',
     roles: [ "Chiefmanager"]
   },
   {
@@ -142,7 +142,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Báo cáo tài chính',
     to: '/reportbranch',
-    icon: 'cil-drop',
+    icon: 'cil-fax',
     roles: [ "Manager"]
   },
   {
@@ -154,7 +154,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Thống kê tài chính',
     to: '/statisticbranch',
-    icon: 'cil-drop',
+    icon: 'cil-chart-line',
     roles: [ "Chiefmanager"]
   },
 
