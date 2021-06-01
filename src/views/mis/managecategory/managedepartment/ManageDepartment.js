@@ -164,7 +164,7 @@ const ManageDepartment = () => {
                             {
                                 account.type == "Chiefmanager" ? <>
                                     <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                                        <option value="" >Chon chi nhanh</option>
+                                        <option value="" >Chọn chi nhánh</option>
                                         {
                                             branchs.map((item) => 
                                                 <option value={item.branch_id}>{item.branch_location}</option>
@@ -219,7 +219,7 @@ const ManageDepartment = () => {
                             {
                                 account.type == "Chiefmanager" ? <>
                                     <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                                        <option value="" >Chon chi nhanh</option>
+                                        <option value="" >Chọn chi nhánh</option>
                                         {
                                             branchs.map((item) => 
                                                 <option value={item.branch_id}>{item.branch_location}</option>
@@ -257,7 +257,7 @@ const ManageDepartment = () => {
                                 <thead>
                                     <th scope="col">  Mã phòng ban </th>
                                     <th scope="col">  Tên phòng ban </th>
-                                    <th scope="col">  So lượng nhân viên </th>
+                                    <th scope="col">  Số lượng nhân viên </th>
                                     <th>Chức năng</th>
                                 </thead>
                                 <tbody>
