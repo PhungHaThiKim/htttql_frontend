@@ -286,8 +286,9 @@ const ManageLend = () => {
                                                         <td>{item.expired}</td>
                                                         <td>{item.interest_rate}</td>
                                                         <td>{item.amount ? item.amount.toLocaleString('en-US')+"VNĐ" : ""} </td>
-                                                        <td>{item.remaining ? item.remaining.toLocaleString('en-US')+"VNĐ" : ""} </td>
+                                                       
                                                         <td>{(item.amount - item.remaining).toLocaleString('en-US')+"VNĐ" }</td>
+                                                        <td>{item.remaining ? item.remaining.toLocaleString('en-US')+"VNĐ" : ""} </td>
                                                         <td>
                                                             
                                                             <CButton color="success"onClick={() => {setLendSelected(item); setLendPaying(!add_lendpaying)}}>Cập nhật</CButton>

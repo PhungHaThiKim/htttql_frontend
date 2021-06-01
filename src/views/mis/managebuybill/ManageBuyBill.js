@@ -350,11 +350,11 @@ const ManageBuyBill = () => {
 
                         <div class="page-tools">
                             <div class="action-buttons">
-                        
+{/*                         
                                 <button onClick={() => exportPDF(canvasRef.current)} class="btn btn-success mx-1px text-95" color="success" data-title="PDF">
                                     <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
                                     PDF
-                                </button>
+                                </button> */}
                                 <button onClick={() => setViewBill(!viewbill)} class="btn mx-1px text-95 btn-secondary" href="#" data-title="Print">
                                     <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
                                     Hủy
