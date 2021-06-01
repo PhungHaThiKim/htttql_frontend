@@ -190,7 +190,7 @@ const ManageProduct = () => {
                             {
                                 account.type == "Chiefmanager" ? <>
                                     <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                                        <option value="" >Chon chi nhanh</option>
+                                        <option value="" >Chọn chi nhánh</option>
                                         {
                                             branchs.map((item) => 
                                                 <option value={item.branch_id}>{item.branch_location}</option>
@@ -211,7 +211,7 @@ const ManageProduct = () => {
                             </CCol>
                             <CCol >
                                 <CSelect value={partner_id} onChange={(e) => setPartnerId(e.target.value)}>
-                                    <option value="">Chon partner</option>
+                                    <option value="">Chọn đối tác</option>
                                     {
                                         partners.map((item) => 
                                             <option value={item.partner_id} >{item.partnername}</option>
