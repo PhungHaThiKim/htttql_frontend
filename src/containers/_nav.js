@@ -123,7 +123,7 @@ const _nav =  [
   
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Quản lý vay nợ'],
+    _children: ['Quản lý vay'],
    roles: [ "Chiefmanager"]
   },
   {
@@ -133,6 +133,7 @@ const _nav =  [
     icon: 'cil-clipboard',
     roles: [ "Chiefmanager"]
   },
+  
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Tổng hợp tài chính chi nhánh'],

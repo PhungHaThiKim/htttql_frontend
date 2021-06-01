@@ -23,27 +23,47 @@ import CIcon from '@coreui/icons-react'
 
 import axios from 'axios'
 import useAccount from 'src/useAccount'
+import moment from 'moment'
 
 
 const ManageLend = () => {
     const {account, saveAccount} = useAccount()
 
+    const [partners, setPartners] = useState([])
+    
     const [lendselected, setLendSelected] = useState(false)
+    const [interest_amount, setInterest_amount] = useState(0)
+    const [payingamount, setpayingamount] = useState(0)
+    const [time, setTime] = useState("")
+    const [amount, setamount] = useState(0)
+    const [add_product, setAddProduct] = useState(false)
+    const [expired, setexpired] = useState("")
+    const [partner_id, setPartnerId] = useState([])
+    const [interest_rate, setinterest_rate] = useState(0)
     const [lend, setLend] = useState([
 
     ])
     const [lendpaying, setLendpaying] = useState([
 
     ])
+    const [add_lendpaying, setLendPaying] = useState(false)
     const [f5, setF5] = useState(false)
     const [warning, setWarning] = useState(false)
     const [viewLend, setViewLend] = useState([])
     useEffect (() =>
     {
-        
+        getPartners()
         getLend()
        
     } , [f5])
+    async function getPartners() {
+        var rs = await axios.post("/api/getpartners")
+         var rs = rs.data
+         var data = rs.data
+
+         setPartners(data)
+         console.log(data)
+    }
 
     async function getLend() {
         var rs = await axios.post("/api/getlend")
@@ -52,49 +72,189 @@ const ManageLend = () => {
         console.log(data)
         setLend(data)
     }
-    async function getLendpaying() {
-        var ids = lendselected.id
-        var rs = await axios.post("/api/getlendpaying")
-        var rs = rs.data
-        var data = rs.data
+  
+    async function addLendPaying()
+    {
+        var data = 
+        {"lendrecid":lendselected.id,
+        "interest_amount" : parseFloat(interest_amount),
+        "payingamount" : parseFloat(payingamount),
+        "payment" : "",
+        "time": moment(time).format("DD/MM/YYYY")}
         console.log(data)
-        setLendpaying(data)
-        var datatmp = []
-        for(var i=0; i<data.length; i++) {
-            
-            if (data[i].id == ids) {
-                datatmp.push(data[i])
-            }
-        }
-        console.log(datatmp)
+        var rs = await axios.post("/api/addlendpaying", data)
+        setInterest_amount(0)
+        setpayingamount(0)
+        setF5(!f5)
 
-        setViewLend(datatmp)
+    }
+    async function addProduct()
+    {
+        var data = 
+        {"userid":account.user_id,
+        "partnerid": partner_id,
+        "interest_rate" : parseFloat(interest_amount),
+        "amount" : parseFloat(amount),
+        "desc" : "",
+        "expired": moment(expired).format("DD/MM/YYYY"),
+        "time": moment(time).format("DD/MM/YYYY")
+    }
+        console.log(data)
+
+        var rs = await axios.post("/api/addlend", data)
+        setPartnerId("")
+        setamount(0)
+        setinterest_rate(0)
+        setexpired("")
+        setTime("")
+      
+        setF5(!f5)
 
     }
     return(
         <>
         {/* View Lend */}
+        {/* Add Product */}
         <CModal 
-              show={viewLend} 
-              onClose={() => setViewLend(!viewLend)}
-              color="primary"
-              size="lg"
-              centered
-            >
+                show={add_product} 
+                onClose={() => setAddProduct(!add_product)}
+                color="primary"
+                size="lg"
+                centered
+                >
+                <CModalHeader closeButton className="text-center">
+                    <CModalTitle className="w-100 addcustom ">Thêm khoản vay</CModalTitle>
+                </CModalHeader>
                 <CModalBody>
+                    <CForm className="form-horizontal">
+                        
 
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Đối tác </CLabel>
+                            </CCol>
+                            <CCol >
+                                <CSelect value={partner_id} onChange={(e) => setPartnerId(e.target.value)}>
+                                    <option value="">Chon partner</option>
+                                    {
+                                        partners.map((item) => 
+                                            <option value={item.partner_id} >{item.partnername}</option>
+                                        )
+                                    }
+                                </CSelect>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Ngày vay</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput type="date" value={time} onChange={(e) => setTime(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Hạn trả</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput type="date" value={expired} onChange={(e) => setexpired(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Số lượng</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput id="number" name="number-input" value={amount} onChange={(e) => setamount(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Lãi suất (%)</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput id="number" name="number-input" value={interest_amount} onChange={(e) => setInterest_amount(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                    
+                    </CForm>
                 </CModalBody>
                 <CModalFooter className="justify-content-center">
-                    <CButton color="primary" onClick={() => getLendpaying()}>Thêm hóa đơn</CButton>{' '}
-                    <CButton color="secondary" onClick={() => setViewLend(!viewLend)}>Hủy</CButton>
-              </CModalFooter>
-        </CModal>
+                    <CButton color="primary" onClick={(e) => addProduct()} >
+                    Thêm
+                    </CButton>{' '}
+                    <CButton color="secondary" onClick={() => setAddProduct(!add_product)}>
+                    Hủy
+                    </CButton>
+                </CModalFooter>
+            </CModal>
+        {/* Add Product */}
+        <CModal 
+                show={add_lendpaying} 
+                onClose={() => setLendPaying(!add_lendpaying)}
+                color="primary"
+                size="lg"
+                centered
+                >
+                <CModalHeader closeButton className="text-center">
+                    <CModalTitle className="w-100 addcustom ">Cập nhật theo tháng</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <CForm className="form-horizontal">
+                          <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Tháng</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput type="date" value={time} onChange={(e) => setTime(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Lãi phải trả</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput id="number" name="number-input" value={interest_amount} onChange={(e) => setInterest_amount(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        <CFormGroup  row>
+                            <CCol xs="2">
+                                <CLabel>Đã trả</CLabel>
+                            </CCol>
+                            <CCol >
+                                <CInput id="number" name="number-input" value={payingamount} onChange={(e) => setpayingamount(e.target.value)}/>
+                                
+                            </CCol>
+                        </CFormGroup>
+                        
+                        
+                    
+                    </CForm>
+                </CModalBody>
+                <CModalFooter className="justify-content-center">
+                    <CButton color="primary" onClick={(e) => addLendPaying()} >
+                    Thêm
+                    </CButton>{' '}
+                    <CButton color="secondary" onClick={() => setLendPaying(!add_lendpaying)}>
+                    Hủy
+                    </CButton>
+                </CModalFooter>
+            </CModal> 
+
+        
          {/* Table */}
          <CRow>
                 <CCol>
                     <CCard>
                         <CCardHeader>
-                            <CButton color="primary">Thêm khoản vay</CButton>
+                            <CButton color="primary"onClick={() => setAddProduct(!add_product)}>Thêm khoản vay</CButton>
                         </CCardHeader>
                         <CCardBody>
                                 <table class="table table-striped text-center">
@@ -129,9 +289,8 @@ const ManageLend = () => {
                                                         <td>{item.remaining ? item.remaining.toLocaleString('en-US')+"VNĐ" : ""} </td>
                                                         <td>{(item.amount - item.remaining).toLocaleString('en-US')+"VNĐ" }</td>
                                                         <td>
-                                                            <CButton color="info" onClick={() => {setLendSelected(item); setViewLend(!viewLend)}}>Xem</CButton>
-                                                            <CButton color="info" >Sửa</CButton>
-                                                            <CButton color="success">Cập nhật</CButton>
+                                                            
+                                                            <CButton color="success"onClick={() => {setLendSelected(item); setLendPaying(!add_lendpaying)}}>Cập nhật</CButton>
                                                             
                                                         </td>
                                                         
