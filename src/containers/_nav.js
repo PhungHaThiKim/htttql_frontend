@@ -157,6 +157,13 @@ const _nav =  [
     icon: 'cil-chart-line',
     roles: [ "Chiefmanager"]
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Tổng kết lãi/lỗ',
+    to: '/ketlailo',
+    icon: 'cil-chart-line',
+    roles: [ "Chiefmanager"]
+  },
 
   
   {
