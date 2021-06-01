@@ -82,7 +82,14 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Quản lý hóa đơn'],
+    _children: ['Kế toán viên'],
+    roles: ["Accountant"]
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Nhập số dư đầu kỳ',
+    to: '/managebalance',
+    icon: 'cil-drop',
     roles: ["Accountant"]
   },
   {
@@ -113,6 +120,7 @@ const _nav =  [
     icon: 'cil-drop',
     roles: ["Accountant"]
   },
+  
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Quản lý vay nợ'],
