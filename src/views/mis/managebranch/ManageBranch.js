@@ -192,7 +192,7 @@ const ManageBranch = () => {
               </CModalBody>
               <CModalFooter className="justify-content-center" >
                 <CButton color="info" onClick={() => editBranchApi()}>
-                  Sua
+                  Sửa
                 </CButton>{' '}
                 <CButton color="secondary" onClick={() => setEditBranch(!edit_branch)}>
                   Hủy
