@@ -227,7 +227,7 @@ const StatisticBranch = () => {
                 <CCard>
                     <CCardBody>
                         <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                            <option value="">Chon chi nhanh</option>
+                            <option value="">Chọn chi nhánh</option>
                             {
                                 branchs.map((item) => 
                                     <option value={item.branch_id}>{item.branch_location}</option>
@@ -259,11 +259,11 @@ const StatisticBranch = () => {
                     <CCardHeader>
                         <CRow>
                             <CCol xs="3">
-                                Thong ke thue:
+                                Thống kê thuế:
                             </CCol>
                             <CCol>
                                 <CSelect value={taxid} onChange={(e) => setTaxId(e.target.value)}>
-                                    <option value="">Tat ca</option>
+                                    <option value="">Tất cả</option>
                                     {
                                         taxs.map((item) => 
                                             <option value={item.tax_id}>{item.taxtype}</option>
@@ -289,7 +289,7 @@ const StatisticBranch = () => {
             <CCol xs="6">
                 <CCard>
                     <CCardHeader>
-                        Thống kê mua san pham
+                        Thống kê mua sản phẩm
                     </CCardHeader>
                     <CCardBody>
                         <Plot
@@ -304,7 +304,7 @@ const StatisticBranch = () => {
             <CCol xs="6">
                 <CCard>
                     <CCardHeader>
-                        Thống kê ban san pham
+                        Thống kê bán sản phẩm
                     </CCardHeader>
                     <CCardBody>
                         <Plot
@@ -322,7 +322,7 @@ const StatisticBranch = () => {
             <CCol xs="6">
                 <CCard>
                     <CCardHeader>
-                        Thống kê chi phi phat sinh
+                        Thống kê chi phí phát sinh
                     </CCardHeader>
                     <CCardBody>
                         <Plot
@@ -337,7 +337,7 @@ const StatisticBranch = () => {
             <CCol xs="6">
                 <CCard>
                     <CCardHeader>
-                        Thống kê lai/lo
+                        Thống kê lãi/lỗ
                     </CCardHeader>
                     <CCardBody>
                         <Plot

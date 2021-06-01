@@ -244,7 +244,7 @@ const ManageEmployee = () =>
                 centered
                 >
                 <CModalHeader closeButton className="text-center">
-                    <CModalTitle className="w-100 addcustom ">Sua nhan vien</CModalTitle>
+                    <CModalTitle className="w-100 addcustom ">Sửa nhân viên</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CForm className="form-horizontal">
@@ -259,11 +259,11 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Chi nhanh</CLabel>
+                                <CLabel >Chi nhánh</CLabel>
                                 {
                                     account.type == "Chiefmanager" ? <>
                                         <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                                            <option value="" >Chon chi nhanh</option>
+                                            <option value="" >Chọn chi nhánh</option>
                                             {
                                                 branchs.map((item) => 
                                                     <option value={item.branch_id}>{item.branch_location}</option>
@@ -280,7 +280,7 @@ const ManageEmployee = () =>
                             <CFormGroup>
                                 <CLabel >Ten phong ban</CLabel>
                                 <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
-                                    <option value="">Chon phong ban</option>
+                                    <option value="">Chọn phòng ban</option>
                                     {
                                         departments.map((item) => 
                                             <option value={item.department_id} >{item.department_name}</option>
@@ -294,13 +294,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="2">
                             <CFormGroup>
-                                <CLabel >Gioi tinh</CLabel>
+                                <CLabel >Giới tính</CLabel>
                                 <CInput id="text-input" name="text-input" value={employee_sex} onChange={(e) => setEmploySex(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="4">
                             <CFormGroup>
-                                <CLabel >So dien thoai</CLabel>
+                                <CLabel >Số điện thoại</CLabel>
                                 <CInput id="text-input" name="text-input" value={employee_phone} onChange={(e) => setEmPhone(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -320,13 +320,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Luong hang thang </CLabel>
+                                <CLabel >Lương hàng tháng </CLabel>
                                 <CInput type="number" value={employee_salary} onChange={ (e) => setEmploySalary(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >So nam kinh nghiem</CLabel>
+                                <CLabel >Số năm kinh nghiệm</CLabel>
                                 <CInput type="number" value={employee_exp} onChange={ (e) => setEmployExp(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -337,7 +337,7 @@ const ManageEmployee = () =>
                             <CFormGroup>
                                 <CLabel >Thue</CLabel>
                                 <CSelect value={taxid} onChange={(e) => setTaxId(e.target.value)}>
-                                    <option value="">Chon thue</option>
+                                    <option value="">Chon thuế</option>
                                     {
                                         taxs.map((item) => 
                                             <option value={item.tax_id} >{item.taxtype}</option>
@@ -351,13 +351,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ngan hang</CLabel>
+                                <CLabel >Ngân hàng</CLabel>
                                 <CInput id="text-input" name="text-input" value={bankname} onChange={ (e) => setBankName(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ma the ngan hang</CLabel>
+                                <CLabel >Mã thẻ ngân hàng</CLabel>
                                 <CInput id="text-input" name="text-input" value={bankid} onChange={ (e) => setBankId(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -367,7 +367,7 @@ const ManageEmployee = () =>
                 </CModalBody>
                 <CModalFooter className="justify-content-center">
                     <CButton color="primary" onClick={() => editEmployeeApi()}>
-                    Sua
+                    Sửa
                     </CButton>
                     <CButton color="secondary" onClick={() => setEditEmploy(!edit_employ)}>
                     Hủy
@@ -385,7 +385,7 @@ const ManageEmployee = () =>
                 centered
                 >
                 <CModalHeader closeButton className="text-center">
-                    <CModalTitle className="w-100 addcustom ">Them nhan vien</CModalTitle>
+                    <CModalTitle className="w-100 addcustom ">Thêm nhân viên</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <CForm className="form-horizontal">
@@ -400,11 +400,11 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Chi nhanh</CLabel>
+                                <CLabel >Chi nhánh</CLabel>
                                 {
                                     account.type == "Chiefmanager" ? <>
                                         <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
-                                            <option value="" >Chon chi nhanh</option>
+                                            <option value="" >Chọn chi nhánh</option>
                                             {
                                                 branchs.map((item) => 
                                                     <option value={item.branch_id}>{item.branch_location}</option>
@@ -419,9 +419,9 @@ const ManageEmployee = () =>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ten phong ban</CLabel>
+                                <CLabel >Tên phòng ban</CLabel>
                                 <CSelect value={department_id} onChange={(e) => setDepartmentId(e.target.value)}>
-                                    <option value="">Chon phong ban</option>
+                                    <option value="">Chọn phòng ban</option>
                                     {
                                         departments.map((item) => 
                                             <option value={item.department_id} >{item.department_name}</option>
@@ -435,13 +435,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="2">
                             <CFormGroup>
-                                <CLabel >Gioi tinh</CLabel>
+                                <CLabel >Giới tính</CLabel>
                                 <CInput id="text-input" name="text-input" value={employee_sex} onChange={(e) => setEmploySex(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="4">
                             <CFormGroup>
-                                <CLabel >So dien thoai</CLabel>
+                                <CLabel >Số điện thoại</CLabel>
                                 <CInput id="text-input" name="text-input" value={employee_phone} onChange={(e) => setEmPhone(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -454,20 +454,20 @@ const ManageEmployee = () =>
                         </CFormGroup>
 
                         <CFormGroup>
-                            <CLabel >Dia chi</CLabel>
+                            <CLabel >Địa chỉ</CLabel>
                             <CInput id="text-input" name="text-input"  value={employee_address} onChange={ (e) => setEmAddress(e.target.value)} />
                         </CFormGroup>
 
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Luong hang thang </CLabel>
+                                <CLabel >Lương hằng tháng </CLabel>
                                 <CInput type="number" value={employee_salary} onChange={ (e) => setEmploySalary(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >So nam kinh nghiem</CLabel>
+                                <CLabel >Số năm kinh nghiệm</CLabel>
                                 <CInput type="number" value={employee_exp} onChange={ (e) => setEmployExp(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -476,9 +476,9 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="12">
                             <CFormGroup>
-                                <CLabel >Thue</CLabel>
+                                <CLabel >Thuế</CLabel>
                                 <CSelect value={taxid} onChange={(e) => setTaxId(e.target.value)}>
-                                    <option value="">Chon thue</option>
+                                    <option value="">Chọn thuế</option>
                                     {
                                         taxs.map((item) => 
                                             <option value={item.tax_id} >{item.taxtype}</option>
@@ -492,13 +492,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ngan hang</CLabel>
+                                <CLabel >Ngân hàng</CLabel>
                                 <CInput id="text-input" name="text-input" value={bankname} onChange={ (e) => setBankName(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ma the ngan hang</CLabel>
+                                <CLabel >Mã thẻ ngân hàng</CLabel>
                                 <CInput id="number" name="number" value={bankid} onChange={ (e) => setBankId(e.target.value)}/>
                             </CFormGroup>
                             </CCol>
@@ -508,7 +508,7 @@ const ManageEmployee = () =>
                 </CModalBody>
                 <CModalFooter className="justify-content-center">
                     <CButton color="primary" onClick={() => addEmployee()}>
-                    Them
+                    Thêm
                     </CButton>
                     <CButton color="secondary" onClick={() => setAddEmployee(!add_employ)}>
                     Hủy
@@ -546,13 +546,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ten phong ban</CLabel>
+                                <CLabel >Tên phòng ban</CLabel>
                                 <CInput  value={employselected.department_id ? employselected.department_id.department_name : ""} onChange={(e) => setDepartmentName(e.target.value)} readOnly/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Chi nhanh</CLabel>
+                                <CLabel >Chi nhánh</CLabel>
                                 <CInput value={employselected.department_id ? employselected.department_id.branch.branch_location: ""} onChange={(e) => setBranchLocation(e.target.value)} readOnly/>
                             </CFormGroup>
                             </CCol>
@@ -561,13 +561,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="2">
                             <CFormGroup>
-                                <CLabel >Gioi tinh</CLabel>
+                                <CLabel >Giới tính</CLabel>
                                 <CInput  value={employselected.employee_sex} readOnly/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="4">
                             <CFormGroup>
-                                <CLabel >So dien thoai</CLabel>
+                                <CLabel >Số điện thoại</CLabel>
                                 <CInput value={employselected.employee_phone}  readOnly/>
                             </CFormGroup>
                             </CCol>
@@ -580,20 +580,20 @@ const ManageEmployee = () =>
                         </CFormGroup>
 
                         <CFormGroup>
-                            <CLabel >Dia chi</CLabel>
+                            <CLabel >Địa chỉ</CLabel>
                             <CInput value={employselected.employee_address} readOnly />
                         </CFormGroup>
 
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Luong hang thang (VND) </CLabel>
+                                <CLabel >Lương hằng tháng (VND) </CLabel>
                                 <CInput  value={employselected.employee_salary ? employselected.employee_salary.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : ""}  readOnly/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >So nam kinh nghiem</CLabel>
+                                <CLabel >Số năm kinh nghiệm</CLabel>
                                 <CInput value={employselected.employee_exp}readOnly/>
                             </CFormGroup>
                             </CCol>
@@ -601,13 +601,13 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ngan hang</CLabel>
+                                <CLabel >Ngân hàng</CLabel>
                                 <CInput value={employselected.bankname}  readOnly/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Ma the ngan hang</CLabel>
+                                <CLabel >Mã thẻ ngân hàng</CLabel>
                                 <CInput value={employselected.bankid}  readOnly/>
                             </CFormGroup>
                             </CCol>
@@ -617,19 +617,19 @@ const ManageEmployee = () =>
                         <CFormGroup row className="my-0">
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Thue</CLabel>
+                                <CLabel >Thuế</CLabel>
                                 <CInput  value={employselected.employee_taxid ? employselected.employee_taxid.taxtype: ""}  readOnly/>
                             </CFormGroup>
                             </CCol>
                             <CCol xs="6">
                             <CFormGroup>
-                                <CLabel >Thue suat (%)</CLabel>
+                                <CLabel >Thuế suất (%)</CLabel>
                                 <CInput value={employselected.employee_taxid ? employselected.employee_taxid.percentage : ""} readOnly/>
                             </CFormGroup>
                             </CCol>
                         </CFormGroup>
                         <CFormGroup>
-                            <CLabel >Tong thue phai nop</CLabel>
+                            <CLabel >Tổng thuế phải nhập</CLabel>
                             <CInput value={ employselected.employee_taxid ? (employselected.employee_salary*employselected.employee_taxid.percentage/100).toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) : "" } readOnly />
                         </CFormGroup>
                     

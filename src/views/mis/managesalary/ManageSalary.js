@@ -324,7 +324,7 @@ const ManageSalary = () => {
                             <CCol xs="7">
                                 <CLabel>Chọn nhân viên </CLabel>
                                 <CSelect value={employee_id} onChange={(e) => setEmployeeId(e.target.value)}>
-                                    <option value="">Chon nhân viên</option>
+                                    <option value="">Chọn nhân viên</option>
                                     {
                                         employee.map((item) => 
                                             <option value={item.employee_id} >{item.employee_id}</option>

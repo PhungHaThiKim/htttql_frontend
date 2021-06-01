@@ -78,7 +78,7 @@ const ReportBranch = () => {
                         <CRow>
                             <CCol>
                                 <CSelect value={selectreport} onChange={(e) => setSelectReport(e.target.value)}>
-                                    <option value="">Chon thang</option>
+                                    <option value="">Chọn tháng</option>
                                     {
                                         reportinouts.map((item) => 
                                             <option value={item.date}>{item.date}</option>
@@ -100,74 +100,74 @@ const ReportBranch = () => {
                             <thead>
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Noi dung</th>
-                                    <th scope="col">Ly ke het thang {selectreport}</th>
+                                    <th scope="col">Nội dung</th>
+                                    <th scope="col">Lũy kế hết tháng {selectreport}</th>
                                 </tr>
                                 <tr>
-                                    <th colSpan="3" className="text-left">A. Phan Thu</th>
+                                    <th colSpan="3" className="text-left">A. Phần Thu</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td className="text-left">Ban san pham</td>
+                                    <td className="text-left">Bán sản phẩm</td>
                                     <td className="text-right">{report.value ? report.value.sellbill.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr className="font-weight-bold">
-                                    <td colSpan="2">Tong</td>
+                                    <td colSpan="2">Tổng</td>
                                     <td className="text-right">{report.value ? report.value.sellbill.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                             </tbody>
                             <thead>
                                 <tr>
-                                    <th colSpan="3" className="text-left">B. Phan chi</th>
+                                    <th colSpan="3" className="text-left">B. Phần chi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td className="text-left">Luong nhan vien</td>
+                                    <td className="text-left">Lương nhân viên</td>
                                     <td className="text-right">{report.value ? report.value.salary.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td className="text-left">Chi phi phat sinh</td>
+                                    <td className="text-left">Chi phí phát sinh</td>
                                     <td className="text-right">{report.value ? report.value.reciept.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td className="text-left">Mua san pham</td>
+                                    <td className="text-left">Mua san phẩm</td>
                                     <td className="text-right">{report.value ? (0-report.value.buybill).toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr className="font-weight-bold">
-                                    <td colSpan="2">Tong</td>
+                                    <td colSpan="2">Tổng</td>
                                     <td className="text-right">{report.value ? (report.value.salary+report.value.reciept-report.value.buybill).toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                             </tbody>
                             <thead>
                                 <tr>
-                                    <th colSpan="3" className="text-left">C. Thue</th>
+                                    <th colSpan="3" className="text-left">C. Thuế</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td className="text-left">Thue gia tri gia tang</td>
+                                    <td className="text-left">Thuế giá trị gia tăng</td>
                                     <td className="text-right">{report.value ? report.value.gtgt.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td className="text-left">Thue thu nhap ca nhan</td>
+                                    <td className="text-left">Thuế thu nhập cá nhân</td>
                                     <td className="text-right">{report.value ? report.value.tncn.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 <tr className="font-weight-bold">
-                                    <td colSpan="2">Tong</td>
+                                    <td colSpan="2">Tổng</td>
                                     <td className="text-right">{report.value ? (report.value.tncn+report.value.gtgt).toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                             </tbody>
                             <tbody>
                                 <tr className="font-weight-bold">
-                                    <td colSpan="2">D. Quy tien:</td>
+                                    <td colSpan="2">D. Quỹ tiền:</td>
                                     <td className="text-right">{report.value ? report.value.interest.toLocaleString('en-US')+" VNĐ" : "0"}</td>
                                 </tr>
                                 
