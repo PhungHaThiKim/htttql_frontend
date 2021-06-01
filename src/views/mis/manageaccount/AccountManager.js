@@ -157,13 +157,13 @@ const AccountManager = () => {
               centered
             >
               <CModalHeader closeButton className="text-center">
-                <CModalTitle className="w-100 addcustom ">Thêm tai khoan</CModalTitle>
+                <CModalTitle className="w-100 addcustom ">Thêm tài khoản</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm className="form-horizontal">
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel>Chi nhanh</CLabel>
+                            <CLabel>Chi nhánh</CLabel>
                         </CCol>
                         <CCol >
                             <CSelect value={branch_id} onChange={(e) => setBranchId(e.target.value)}>
@@ -204,7 +204,7 @@ const AccountManager = () => {
                     </CFormGroup>
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel>Gioi tinh</CLabel>
+                            <CLabel>Giới tính</CLabel>
                         </CCol>
                         <CCol >
                             <CInput id="text-input" name="text-input" value={sex} onChange={(e) => setSex(e.target.value)}/>
@@ -276,7 +276,7 @@ const AccountManager = () => {
                     </CFormGroup>
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel>Gioi tinh</CLabel>
+                            <CLabel>Giới tính</CLabel>
                         </CCol>
                         <CCol >
                             <CInput id="text-input" name="text-input" value={sex} onChange={(e) => setSex(e.target.value)}/>
@@ -300,7 +300,7 @@ const AccountManager = () => {
               </CModalBody>
               <CModalFooter className="justify-content-center" >
                 <CButton color="info" onClick={() => editAccountApi()}>
-                  Sua
+                  Sửa
                 </CButton>{' '}
                 <CButton color="secondary" onClick={() => setEditAccount(!edit_account)}>
                   Hủy

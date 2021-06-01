@@ -141,7 +141,7 @@ const AccountChiefmanager = () => {
               centered
             >
               <CModalHeader closeButton className="text-center">
-                <CModalTitle className="w-100 addcustom ">Thêm tai khoan</CModalTitle>
+                <CModalTitle className="w-100 addcustom ">Thêm tài khoản</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm className="form-horizontal">
@@ -171,7 +171,7 @@ const AccountChiefmanager = () => {
                     </CFormGroup>
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel>Gioi tinh</CLabel>
+                            <CLabel>Giới tính</CLabel>
                         </CCol>
                         <CCol >
                             <CInput id="text-input" name="text-input" value={sex} onChange={(e) => setSex(e.target.value)}/>
@@ -213,7 +213,7 @@ const AccountChiefmanager = () => {
               centered
             >
               <CModalHeader closeButton className="text-center">
-                <CModalTitle className="w-100 addcustom ">Sửa tai khoan</CModalTitle>
+                <CModalTitle className="w-100 addcustom ">Sửa tài khoản</CModalTitle>
               </CModalHeader>
               <CModalBody>
                 <CForm className="form-horizontal">
@@ -243,7 +243,7 @@ const AccountChiefmanager = () => {
                     </CFormGroup>
                     <CFormGroup  row>
                         <CCol xs="2">
-                            <CLabel>Gioi tinh</CLabel>
+                            <CLabel>Giới tính</CLabel>
                         </CCol>
                         <CCol >
                             <CInput id="text-input" name="text-input" value={sex} onChange={(e) => setSex(e.target.value)}/>
@@ -267,7 +267,7 @@ const AccountChiefmanager = () => {
               </CModalBody>
               <CModalFooter className="justify-content-center" >
                 <CButton color="info" onClick={() => editAccountApi()}>
-                  Sua
+                  Sửa
                 </CButton>{' '}
                 <CButton color="secondary" onClick={() => setEditAccount(!edit_account)}>
                   Hủy
@@ -279,7 +279,7 @@ const AccountChiefmanager = () => {
                 <CCol>
                     <CCard> 
                         <CCardHeader>
-                            <CButton color="primary" onClick={() => setAddAccount(!add_account)}>Them tai khoan</CButton>
+                            <CButton color="primary" onClick={() => setAddAccount(!add_account)}>Thêm tài khoản</CButton>
                         </CCardHeader>
                         <CCardBody>
                             <table class="table table-striped text-center">
