@@ -20,6 +20,7 @@ const ManageLend = React.lazy(() => import('./views/mis/managelend/ManageLend'))
 const ManageReciept = React.lazy(() => import('./views/mis/managereciept/ManageReciept'));
 const ManageBalance = React.lazy(() => import('./views/mis/managebalance/ManageBalance'));
 
+
 const routes = [
   { path: '/statisticbranch', name: 'Thống kê tài chính chi nhánh', component: StatisticBranch,roles: ["Chiefmanager"] },
   { path: '/reportbranch', name: 'Báo cáo tài chính chi nhánh', component: ReportBranch,roles: ["Manager"] },
@@ -40,6 +41,7 @@ const routes = [
   { path: '/managereciept/', name: 'Quản lý chi phí phát sinh', component: ManageReciept, roles: ["Accountant"]},
   { path: '/managelend/', name: 'Quản lý cho vay', component: ManageLend, roles: ["Chiefmanager"]},
   { path: '/managebalance/', name: 'Nhập số dư đầu kỳ', component: ManageBalance, roles: ["Accountant"]},
+  
 
   { path: '/', exact: true, name: 'Trang chủ' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
